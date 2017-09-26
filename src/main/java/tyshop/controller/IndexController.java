@@ -4,7 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import tyshop.model.ProductModel;
 import tyshop.service.IndexService;
+import tyshop.service.ProductService;
 
 import java.util.Map;
 
@@ -17,11 +19,20 @@ public class IndexController {
 
     @Autowired
     private IndexService indexService;
+    @Autowired
+    private ProductService productService;
 
     @RequestMapping(value = "banner/list")
     @ResponseBody
     public Map listBanner() {
         return indexService.listBanner();
+    }
+
+    @RequestMapping(value = "product/all")
+    @ResponseBody
+    public Map login() {
+        System.out.println("----");
+        return  productService.listProduct();
     }
 
 
