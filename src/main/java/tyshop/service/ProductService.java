@@ -10,7 +10,7 @@ import java.util.Map;
 public interface ProductService {
 
     /**
-     * 通过Id获取Product
+     * 通过Id获取Product 详情
      * @param id
      * @return
      */
@@ -20,5 +20,5 @@ public interface ProductService {
      * 获取product集合
      * @return
      */
-    Map listProduct();
+    String listProduct();
 }

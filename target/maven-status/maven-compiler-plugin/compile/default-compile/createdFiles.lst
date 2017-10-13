@@ -10,6 +10,7 @@ tymodbus\service\ModbusService.class
 com\lssm\controller\LemonCustomerController.class
 com\modbus\Test.class
 com\lssm\model\LemonGroupExample$Criteria.class
+tyshop\vo\ProductVo.class
 tyshop\utils\ClassUtils.class
 com\lssm\model\LemonUserExample$Criteria.class
 com\lssm\model\LemonUserExample.class
@@ -25,10 +26,12 @@ com\lssm\model\LemonGroupUserExample.class
 tyshop\base\wxfinal\LoginFinal.class
 tyshop\utils\Charsets.class
 com\lssm\model\LemonCustomerExample.class
+tyshop\controller\ManController.class
 tyshop\utils\RedisUtilsImpl.class
 com\lssm\service\LemonUserService.class
 com\lssm\mapper\LemonCustomerMapper.class
 com\lssm\model\LemonGroupUserExample$Criterion.class
+tyshop\serviceImpl\ManServiceImpl.class
 com\lssm\model\LemonCustomerExample$GeneratedCriteria.class
 tymodbus\model\AcreModel.class
 tyshop\utils\Md5Utils.class
@@ -66,4 +69,5 @@ tyshop\serviceImpl\ProductServiceImpl.class
 tyshop\controller\ProductController.class
 com\lssm\model\LemonCustomer.class
 tyshop\utils\RedisCacheTest.class
+tyshop\service\ManService.class
 tyshop\model\LoginModel.class

@@ -59,10 +59,25 @@ public class RedisUtilsImpl implements RedisUtils{
         return count;
     }
 
+    @Override
+    public void setObject(String key, Object object) {
+        Jedis jedis = this.getJedis();
+        byte[] serStr = SerializationUtil.serialize(object);
+        jedis.set(key.getBytes(), serStr);
+        this.releaseJedis(jedis);
+    }
+
+    @Override
+    public Object getObject(String key) {
+        Jedis jedis = this.getJedis();
+        Object o = SerializationUtil.deserialize(jedis.get(key).getBytes());
+        this.releaseJedis(jedis);
+        return o;
+    }
+
+
     /**
      * 获取Jedis连接
-     *
-     * @return Jedis连接
      */
     public Jedis getJedis() {
         return this.jedisPool.getResource();
@@ -70,8 +85,6 @@ public class RedisUtilsImpl implements RedisUtils{
 
     /**
      * 释放redis连接
-     *
-     * @param jedis redis连接
      */
     public void releaseJedis(Jedis jedis) {
         jedis.disconnect();

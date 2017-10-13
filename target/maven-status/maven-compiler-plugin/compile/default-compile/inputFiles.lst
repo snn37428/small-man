@@ -10,8 +10,9 @@ E:\TYF\jar\ty_pro\src\main\java\tymodbus\service\ModbusService.java
 E:\TYF\jar\ty_pro\src\main\java\com\lssm\mapper\LemonGroupMapper.java
 E:\TYF\jar\ty_pro\src\main\java\com\lssm\model\LemonCustomer.java
 E:\TYF\jar\ty_pro\src\main\java\com\lssm\model\LemonCustomerExample.java
-E:\TYF\jar\ty_pro\src\main\java\tyshop\utils\Base64Utils.java
 E:\TYF\jar\ty_pro\src\main\java\tymodbus\serviceImpl\ModBusServiceImpl.java
+E:\TYF\jar\ty_pro\src\main\java\tyshop\utils\Base64Utils.java
+E:\TYF\jar\ty_pro\src\main\java\tyshop\controller\ManController.java
 E:\TYF\jar\ty_pro\src\main\java\tyshop\utils\RedisUtils.java
 E:\TYF\jar\ty_pro\src\main\java\com\lssm\model\LemonSeatInfoExample.java
 E:\TYF\jar\ty_pro\src\main\java\tyshop\utils\ClassUtils.java
@@ -32,8 +33,8 @@ E:\TYF\jar\ty_pro\src\main\java\tyshop\controller\IndexController.java
 E:\TYF\jar\ty_pro\src\main\java\tyshop\base\BaseMap\JsonShop.java
 E:\TYF\jar\ty_pro\src\main\java\tyshop\model\ProductModel.java
 E:\TYF\jar\ty_pro\src\main\java\tymodbus\model\AcreModel.java
-E:\TYF\jar\ty_pro\src\main\java\com\lssm\mapper\LemonCustomerMapper.java
 E:\TYF\jar\ty_pro\src\main\java\tyshop\utils\Charsets.java
+E:\TYF\jar\ty_pro\src\main\java\com\lssm\mapper\LemonCustomerMapper.java
 E:\TYF\jar\ty_pro\src\main\java\com\modbus\Test.java
 E:\TYF\jar\ty_pro\src\main\java\com\lssm\mapper\LemonUserMapper.java
 E:\TYF\jar\ty_pro\src\main\java\com\lssm\mapper\LemonGroupUserMapper.java
@@ -45,10 +46,13 @@ E:\TYF\jar\ty_pro\src\main\java\tyshop\model\LoginModel.java
 E:\TYF\jar\ty_pro\src\main\java\tyshop\model\BannerModel.java
 E:\TYF\jar\ty_pro\src\main\java\com\lssm\serviceImpl\LemonUserServiceImpl.java
 E:\TYF\jar\ty_pro\src\main\java\tyshop\utils\AesCbcUtil.java
+E:\TYF\jar\ty_pro\src\main\java\tyshop\serviceImpl\ManServiceImpl.java
 E:\TYF\jar\ty_pro\src\main\java\tyshop\service\ProductService.java
 E:\TYF\jar\ty_pro\src\main\java\tyshop\utils\PKCS7Encoder.java
 E:\TYF\jar\ty_pro\src\main\java\com\lssm\model\LemonUser.java
 E:\TYF\jar\ty_pro\src\main\java\com\lssm\controller\LemonUserController.java
+E:\TYF\jar\ty_pro\src\main\java\tyshop\vo\ProductVo.java
+E:\TYF\jar\ty_pro\src\main\java\tyshop\service\ManService.java
 E:\TYF\jar\ty_pro\src\main\java\com\lssm\service\LemonCustomerService.java
 E:\TYF\jar\ty_pro\src\main\java\tyshop\serviceImpl\LoginServiceImpl.java
 E:\TYF\jar\ty_pro\src\main\java\com\lssm\model\LemonGroupUserExample.java

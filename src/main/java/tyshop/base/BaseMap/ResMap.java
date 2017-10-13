@@ -15,7 +15,7 @@ public class ResMap {
      * @param value 错误说明
      * @return
      */
-    public final static Map<String, Object> getFailedMap(int key, String value) {
+    public static Map<String, Object> getFailedMap(int key, String value) {
 
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("code", key);
@@ -30,7 +30,7 @@ public class ResMap {
      * @param data 返回的data数据
      * @return
      */
-    public final static Map<String, Object> getSuccessMap(Object data) {
+    public static <T> Map getSuccessMap(T data) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("code", ResEnum.ON_ERROR.getKey());
         map.put("msg", ResEnum.ON_ERROR.getValue());
@@ -39,7 +39,7 @@ public class ResMap {
         return map;
     }
 
-    public final static Map<String, Object> getMap(Object data) {
+    public static Map<String, Object> getMap(Object data) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("success", true);
         map.put("data", data);

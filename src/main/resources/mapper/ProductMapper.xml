@@ -27,10 +27,10 @@
         <result column="active" property="active"/>
     </resultMap>
 
-    <select id="getProductById" resultMap="ProductResultMap">
-        select id, seller_id, sn, name, name_desc, price, market_price, image, stock, delivery_weight, is_unified_spec,
-         is_marketable, is_list, introduction, sales, product_category_id, delivery_type, delivery_fees, delivery_template_id,
-           created, updated, active from t_product where id = 2
+    <select id="getProductById" resultMap="ProductResultMap" parameterType="int">
+         <![CDATA[
+			select seller_id, sn, price, image, introduction, product_category_id from t_product as a, b.content, b.is_show t_product_review as b where a.id = b.product_id and a.id = #id#
+		]]>
     </select>
 
     <select id="listProduct" resultMap="ProductResultMap">

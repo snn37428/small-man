@@ -12,7 +12,7 @@ public interface RedisUtils {
      * @param key   键
      * @param value zhi
      */
-    public void set(String key, String value);
+     void set(String key, String value);
 
     /**
      * 保存并设置生存时间
@@ -21,7 +21,7 @@ public interface RedisUtils {
      * @param value   值
      * @param seconds 时间，秒s为单位
      */
-    public void set(String key, String value, Integer seconds);
+     void set(String key, String value, Integer seconds);
 
     /**
      * 根据key查询
@@ -29,14 +29,14 @@ public interface RedisUtils {
      * @param key 键
      * @return 值
      */
-    public String get(String key);
+     String get(String key);
 
     /**
      * 删除
      *
      * @param key 键
      */
-    public void del(String key);
+     void del(String key);
 
     /**
      * 根据key设置生存时间
@@ -44,7 +44,7 @@ public interface RedisUtils {
      * @param key     键
      * @param seconds 时间，秒s为单位
      */
-    public void expire(String key, Integer seconds);
+     void expire(String key, Integer seconds);
 
     /**
      * value加一<br/>
@@ -53,6 +53,17 @@ public interface RedisUtils {
      * @param key 键
      * @return 加一后的结果
      */
-    public Long incr(String key);
+     Long incr(String key);
+
+    /**
+     * 插入对象
+     * @param object
+     */
+     void setObject(String key, Object object);
+
+     /**
+      *通过key获取object
+      */
+     Object getObject(String key);
 
 }
