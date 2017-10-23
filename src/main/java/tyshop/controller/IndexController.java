@@ -29,10 +29,9 @@ public class IndexController {
     }
 
     @RequestMapping(value = "product/all")
-    @ResponseBody
-    public String login() {
+    public Map login() {
         System.out.println("product/all begin----");
-        return  productService.listProduct();
+        return productService.listProduct();
     }
 
 

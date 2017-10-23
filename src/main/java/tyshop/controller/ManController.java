@@ -6,9 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import tyshop.service.ManService;
-import tyshop.utils.RedisUtils;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -24,8 +22,6 @@ public class ManController {
     @RequestMapping(value = "clean")
     @ResponseBody
     public Map cleanRedis(@RequestParam String key) {
-        Map map = new HashMap();
-        map.put("哈哈", "我");
-        return map;
+        return manService.cleanRedis(key);
     }
 }

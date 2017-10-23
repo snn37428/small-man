@@ -2,6 +2,7 @@ package tyshop.utils;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
@@ -9,7 +10,7 @@ import redis.clients.jedis.JedisPool;
  * Created by songningning1 on 2017/9/9.
  */
 @Service
-public class RedisUtilsImpl implements RedisUtils{
+public class RedisUtilsImpl implements RedisUtils {
 
     @Autowired
     private JedisPool jedisPool;
@@ -63,16 +64,24 @@ public class RedisUtilsImpl implements RedisUtils{
     public void setObject(String key, Object object) {
         Jedis jedis = this.getJedis();
         byte[] serStr = SerializationUtil.serialize(object);
-        jedis.set(key.getBytes(), serStr);
+        jedis.set(key, serStr.toString());
         this.releaseJedis(jedis);
     }
 
     @Override
     public Object getObject(String key) {
         Jedis jedis = this.getJedis();
-        Object o = SerializationUtil.deserialize(jedis.get(key).getBytes());
+        String strRs = jedis.get(key);
+        if (StringUtils.isEmpty(strRs)) {
+            return null;
+        }
+        Object obj = SerializationUtil.deserialize(strRs.getBytes());
         this.releaseJedis(jedis);
-        return o;
+        return obj;
+    }
+
+    public void incrOrder(String key) {
+
     }
 
 

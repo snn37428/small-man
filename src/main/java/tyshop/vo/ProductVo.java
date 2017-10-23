@@ -1,9 +1,11 @@
 package tyshop.vo;
 
+import java.io.Serializable;
+
 /**
  * Created by songningning1 on 2017/9/26.
  */
-public class ProductVo {
+public class ProductVo implements Serializable{
     private int id;
     private int userId;
     private int type;

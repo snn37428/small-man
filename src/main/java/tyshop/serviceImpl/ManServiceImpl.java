@@ -20,7 +20,7 @@ public class ManServiceImpl implements ManService {
     private RedisUtils redisUtils;
 
     @Override
-    public String cleanRedis(String key) {
+    public Map cleanRedis(String key) {
         Map map = new HashMap();
         try {
             redisUtils.del(key);
@@ -28,6 +28,6 @@ public class ManServiceImpl implements ManService {
            map.put("Meg", "删除缓存失败，key:" + key);
         }
         map.put("Meg", "删除缓存成功，Key：" + key);
-        return JSON.toJSONString(map);
+        return map;
     }
 }

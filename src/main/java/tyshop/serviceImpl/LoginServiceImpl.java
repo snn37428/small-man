@@ -1,11 +1,11 @@
 package tyshop.serviceImpl;
 
 import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 import tyshop.base.BaseMap.ResMap;
 import tyshop.base.EnumCode.ResEnum;
 import tyshop.base.wxfinal.LoginFinal;
@@ -15,7 +15,6 @@ import tyshop.utils.HttpRequest;
 import tyshop.utils.Md5Utils;
 import tyshop.utils.RedisUtils;
 
-import javax.annotation.Resource;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -39,7 +38,7 @@ public class LoginServiceImpl implements LoginService {
             //发送请求获取openId
             String data = HttpRequest.sendPost(LoginFinal.getUrl().trim(), params);
 
-            if (StringUtils.isEmpty(data)) {
+            if (StringUtils.isBlank(data)) {
                 return ResMap.getFailedMap(ResEnum.RES_RESULT_NULL.getKey(), ResEnum.RES_RESULT_NULL.getValue());
             }
 
@@ -47,7 +46,7 @@ public class LoginServiceImpl implements LoginService {
             String openId = jsonData.get("openid").toString().trim();
             String sessionKey = jsonData.get("session_key").toString().trim();
 
-            if (StringUtils.isEmpty(openId) || StringUtils.isEmpty(sessionKey)) {
+            if (StringUtils.isBlank(openId) || StringUtils.isBlank(sessionKey)) {
                 return ResMap.getFailedMap(ResEnum.RES_RESULT_NULL.getKey(), ResEnum.RES_RESULT_NULL.getValue());
             }
 
@@ -71,7 +70,7 @@ public class LoginServiceImpl implements LoginService {
 
         Map map = new HashMap();
         //token验证失败
-        if (StringUtils.isEmpty(redisUtils.get("token"))) {
+        if (org.apache.commons.lang3.StringUtils.isEmpty(redisUtils.get("token"))) {
             map.put("code", ResEnum.RES_PARAM_ERROR.getKey());
         }
         //token验证成功

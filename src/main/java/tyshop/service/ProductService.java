@@ -20,5 +20,5 @@ public interface ProductService {
      * 获取product集合
      * @return
      */
-    String listProduct();
+    Map listProduct();
 }

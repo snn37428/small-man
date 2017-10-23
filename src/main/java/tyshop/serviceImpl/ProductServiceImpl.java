@@ -1,6 +1,8 @@
 package tyshop.serviceImpl;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +15,6 @@ import tyshop.utils.RedisUtils;
 import tyshop.vo.ProductVo;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -35,14 +36,17 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public String listProduct() {
+    public Map listProduct() {
         //缓存读取
-        if (redisUtils.get("listProduct") != null) {
-            return redisUtils.get("listProduct");
+        String pvList = redisUtils.get("listProduct");
+
+        if (StringUtils.isNotBlank(pvList)) {
+            return ResMap.getSuccessMap(JSONObject.parseArray(pvList, ProductVo.class));
         }
-        List<ProductVo> pvList = this.convertProduct(productMapper.listProduct());
-        redisUtils.set("listProduct", JSON.toJSONString(pvList));
-        return JSON.toJSONString(ResMap.getSuccessMap(pvList));
+
+        List<ProductVo> pvLists = this.convertProduct(productMapper.listProduct());
+        redisUtils.set("listProduct", JSON.toJSON(pvLists).toString());
+        return ResMap.getSuccessMap(pvLists);
     }
 
     /**
