@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="tyshop.mapper.OrderItemModel">
+
+    <resultMap id="OrderItemResultMap" type="tyshop.model.OrderItemModel">
+        <id column="id" property="id"/>
+        <result column="order_id" property="OrderId"/>
+        <result column="product_id" property="productId"/>
+        <result column="price" property="price"/>
+        <result column="name" property="name"/>
+        <result column="sn" property="sn"/>
+        <result column="product_img" property="imgUrl"/>
+        <result column="quantity" property="quantity"/>
+        <result column="created" property="created"/>
+        <result column="updated" property="updated"/>
+        <result column="active" property="active"/>
+    </resultMap>
+
+    <insert id="insert" parameterType="tyshop.model.OrderItemModel">
+         <![CDATA[
+            insert into t_order (
+            order_id, product_id, price, name, sn,product_img,
+            quantity,
+            created,
+            updated,
+            active
+            ) VALUES (
+            #{OrderId},#{productId},#{price},#{name},#{sn},#{imgUrl},#{quantity},
+            #{created},#{updated},#{active}
+            )
+        ]]>
+    </insert>
+
+    <select id="getOrderById" resultMap="OrderItemResultMap" parameterType="String">
+        <![CDATA[
+            select
+            order_id, product_id, price, name, sn,product_img,
+            quantity,
+            created,
+            updated,
+            active
+            from t_order where id = #{id}
+        ]]>
+    </select>
+
+    <select id="listOrderByOderId" resultMap="OrderItemResultMap" parameterType="String">
+        <![CDATA[
+            select
+            order_id, product_id, price, name, sn,product_img,
+            quantity,
+            created,
+            updated,
+            active
+            from t_order where order_id = #{orderId}
+        ]]>
+    </select>
+
+
+</mapper>

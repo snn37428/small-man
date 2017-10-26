@@ -26,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Map selectOrderById(int id) {
+    public Map getOrderByToken(int token) {
         return null;
     }
 

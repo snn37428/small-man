@@ -14,9 +14,9 @@ public interface OrderService {
     Map create(String str);
 
     /**
-     * 根据用户名id，查询订单
-     * @param id
+     * 根据用户名token，查询订单
+     * @param token
      * @return
      */
-    Map selectOrderById(int id);
+    Map getOrderByToken(int token);
 }
