@@ -23,12 +23,7 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderMapper orderMapper;
 
-    @Override
-    public Map create(String str) {
-        this.createOrder();
-        //GenerateNum.getInstance().GenerateOrder());
-        return null;
-    }
+
     @Transactional(rollbackFor=Exception.class)
     public void createOrder(){
         OrderModel orderModel = new OrderModel();
@@ -43,10 +38,12 @@ public class OrderServiceImpl implements OrderService {
             orderMapper.insert(orderModel);
     }
 
-    @Override
-    public Map getOrderByToken(int token) {
+
+    public Map create(String str) {
         return null;
     }
 
-
+    public Map getOrderByToken(int token) {
+        return null;
+    }
 }
