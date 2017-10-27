@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="tyshop.mapper.OrderItemModel">
+<mapper namespace="tyshop.mapper.OrderItemMapper">
 
     <resultMap id="OrderItemResultMap" type="tyshop.model.OrderItemModel">
         <id column="id" property="id"/>
@@ -31,7 +31,7 @@
         ]]>
     </insert>
 
-    <select id="getOrderById" resultMap="OrderItemResultMap" parameterType="String">
+    <select id="getOrderById" resultMap="OrderItemResultMap" parameterType="int">
         <![CDATA[
             select
             order_id, product_id, price, name, sn,product_img,

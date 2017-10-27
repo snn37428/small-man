@@ -1,5 +1,7 @@
 package tyshop.mapper;
 
+import tyshop.model.OrderModel;
+
 import java.util.List;
 import java.util.Map;
 
@@ -10,10 +12,10 @@ public interface OrderMapper {
     /**
      * 创建订单
      *
-     * @param orderMapper
+     * @param orderModel
      * @return
      */
-    int insert(OrderMapper orderMapper);
+    int insert(OrderModel orderModel);
 
     /**
      * 根据主键获取订单

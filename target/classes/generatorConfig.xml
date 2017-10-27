@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
-    <classPathEntry location="D:\repository\mysql\mysql-connector-java\5.1.18\mysql-connector-java\5.1.18"/>
+   <!-- <classPathEntry location="D:\repository\mysql\mysql-connector-java\5.1.18\mysql-connector-java\5.1.18"/>-->
     <context id="testTables" targetRuntime="MyBatis3" >
         <commentGenerator>
             <!-- 是否去除自动生成的注释 true：是 ： false:否 -->
@@ -17,7 +17,7 @@
         <!--password="${jdbc.password}">-->
         <!--</jdbcConnection>-->
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://127.0.0.1:3306/crmspmvc?characterEncoding=UTF-8"
+                        connectionURL="jdbc:mysql://127.0.0.1:3306/ty?characterEncoding=UTF-8"
                         userId="root"
                         password="">
         </jdbcConnection>

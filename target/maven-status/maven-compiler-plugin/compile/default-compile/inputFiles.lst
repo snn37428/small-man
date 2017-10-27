@@ -2,6 +2,7 @@ E:\TYF\jar\ty_pro\src\main\java\tyshop\utils\HttpRequest.java
 E:\TYF\jar\ty_pro\src\main\java\com\modbus\ModbusUtil.java
 E:\TYF\jar\ty_pro\src\main\java\tyshop\mapper\OrderItemMapper.java
 E:\TYF\jar\ty_pro\src\main\java\tyshop\serviceImpl\IndexServiceImpl.java
+E:\TYF\jar\ty_pro\src\main\java\tyshop\mapper\BuyerReceiverMapper.java
 E:\TYF\jar\ty_pro\src\main\java\tyshop\base\EnumCode\ResEnum.java
 E:\TYF\jar\ty_pro\src\main\java\com\lssm\model\LemonGroup.java
 E:\TYF\jar\ty_pro\src\main\java\com\modbus\Unit.java

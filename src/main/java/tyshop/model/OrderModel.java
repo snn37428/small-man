@@ -9,11 +9,12 @@ public class OrderModel {
 
     private Long id; //主键_id
     private int sellerId;//操作员
-    private int buyerId;//会员
+    private String buyerId;//会员
+    private String opendId;
     private String orderId;//订单编号
     private int orderStatus;//订单状态
     private int payStatus;//支付状态
-    private String shippingStatus;//配送状态
+    private int shippingStatus;//配送状态
     private String receiverId;//收货地址
     private int totalPrice;//订单总价
     private int postFee;//运费
@@ -24,6 +25,14 @@ public class OrderModel {
     private Date create;//创建日期
     private Date updated;//最后修改日期
     private int active;//删除标记
+
+    public String getOpendId() {
+        return opendId;
+    }
+
+    public void setOpendId(String opendId) {
+        this.opendId = opendId;
+    }
 
     public Long getId() {
         return id;
@@ -41,11 +50,11 @@ public class OrderModel {
         this.sellerId = sellerId;
     }
 
-    public int getBuyerId() {
+    public String getBuyerId() {
         return buyerId;
     }
 
-    public void setBuyerId(int buyerId) {
+    public void setBuyerId(String buyerId) {
         this.buyerId = buyerId;
     }
 
@@ -73,11 +82,11 @@ public class OrderModel {
         this.payStatus = payStatus;
     }
 
-    public String getShippingStatus() {
+    public int getShippingStatus() {
         return shippingStatus;
     }
 
-    public void setShippingStatus(String shippingStatus) {
+    public void setShippingStatus(int shippingStatus) {
         this.shippingStatus = shippingStatus;
     }
 

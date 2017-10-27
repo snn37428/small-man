@@ -15,6 +15,7 @@ tyshop\model\OrderModel.class
 com\modbus\ModbusUtil.class
 tyshop\base\BaseMap\JsonShop.class
 tyshop\utils\AesCbcUtil.class
+tyshop\mapper\BuyerReceiverMapper.class
 tyshop\base\wxfinal\LoginFinal.class
 com\lssm\model\LemonCustomerExample.class
 tyshop\utils\Charsets.class

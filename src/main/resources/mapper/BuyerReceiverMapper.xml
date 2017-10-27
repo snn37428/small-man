@@ -37,7 +37,7 @@
         ]]>
     </insert>
 
-    <select id="listOrderBySellerId" resultMap="OrderResultMap" parameterType="String">
+    <select id="listOrderBySellerId" resultMap="BuyerReceiverMap" parameterType="String">
         <![CDATA[
             select
             seller_id, receiver_name, area_id, area_tree_path,province,
