@@ -1,0 +1,1279 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="shop.dao.OrderPOMapper">
+  <resultMap id="BaseResultMap" type="shop.pojo.OrderPO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="seller_id" jdbcType="BIGINT" property="sellerId" />
+    <result column="buyer_id" jdbcType="BIGINT" property="buyerId" />
+    <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="payment_status" jdbcType="INTEGER" property="paymentStatus" />
+    <result column="shipping_status" jdbcType="INTEGER" property="shippingStatus" />
+    <result column="receiver_id" jdbcType="BIGINT" property="receiverId" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="post_fee" jdbcType="DECIMAL" property="postFee" />
+    <result column="pay_fee" jdbcType="DECIMAL" property="payFee" />
+    <result column="point" jdbcType="BIGINT" property="point" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="trade_no" jdbcType="VARCHAR" property="tradeNo" />
+    <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
+    <result column="invoice_title" jdbcType="VARCHAR" property="invoiceTitle" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+    <result column="active" jdbcType="BIT" property="active" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, seller_id, buyer_id, order_sn, order_status, payment_status, shipping_status, 
+    receiver_id, total_price, post_fee, pay_fee, point, memo, trade_no, transaction_id, 
+    invoice_title, created, updated, active
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="shop.pojo.OrderPO">
+    insert into t_order (id, seller_id, buyer_id, 
+      order_sn, order_status, payment_status, 
+      shipping_status, receiver_id, total_price, 
+      post_fee, pay_fee, point, 
+      memo, trade_no, transaction_id, 
+      invoice_title, created, updated, 
+      active)
+    values (#{id,jdbcType=BIGINT}, #{sellerId,jdbcType=BIGINT}, #{buyerId,jdbcType=BIGINT}, 
+      #{orderSn,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, #{paymentStatus,jdbcType=INTEGER}, 
+      #{shippingStatus,jdbcType=INTEGER}, #{receiverId,jdbcType=BIGINT}, #{totalPrice,jdbcType=DECIMAL}, 
+      #{postFee,jdbcType=DECIMAL}, #{payFee,jdbcType=DECIMAL}, #{point,jdbcType=BIGINT}, 
+      #{memo,jdbcType=VARCHAR}, #{tradeNo,jdbcType=VARCHAR}, #{transactionId,jdbcType=VARCHAR}, 
+      #{invoiceTitle,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, 
+      #{active,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="shop.pojo.OrderPO">
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sellerId != null">
+        seller_id,
+      </if>
+      <if test="buyerId != null">
+        buyer_id,
+      </if>
+      <if test="orderSn != null">
+        order_sn,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="paymentStatus != null">
+        payment_status,
+      </if>
+      <if test="shippingStatus != null">
+        shipping_status,
+      </if>
+      <if test="receiverId != null">
+        receiver_id,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="postFee != null">
+        post_fee,
+      </if>
+      <if test="payFee != null">
+        pay_fee,
+      </if>
+      <if test="point != null">
+        point,
+      </if>
+      <if test="memo != null">
+        memo,
+      </if>
+      <if test="tradeNo != null">
+        trade_no,
+      </if>
+      <if test="transactionId != null">
+        transaction_id,
+      </if>
+      <if test="invoiceTitle != null">
+        invoice_title,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="active != null">
+        active,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sellerId != null">
+        #{sellerId,jdbcType=BIGINT},
+      </if>
+      <if test="buyerId != null">
+        #{buyerId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSn != null">
+        #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paymentStatus != null">
+        #{paymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="shippingStatus != null">
+        #{shippingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="postFee != null">
+        #{postFee,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null">
+        #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null">
+        #{point,jdbcType=BIGINT},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null">
+        #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null">
+        #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="shop.pojo.OrderPO">
+    update t_order
+    <set>
+      <if test="sellerId != null">
+        seller_id = #{sellerId,jdbcType=BIGINT},
+      </if>
+      <if test="buyerId != null">
+        buyer_id = #{buyerId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSn != null">
+        order_sn = #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paymentStatus != null">
+        payment_status = #{paymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="shippingStatus != null">
+        shipping_status = #{shippingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="receiverId != null">
+        receiver_id = #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="postFee != null">
+        post_fee = #{postFee,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null">
+        pay_fee = #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null">
+        point = #{point,jdbcType=BIGINT},
+      </if>
+      <if test="memo != null">
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null">
+        transaction_id = #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null">
+        invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        active = #{active,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="shop.pojo.OrderPO">
+    update t_order
+    set seller_id = #{sellerId,jdbcType=BIGINT},
+      buyer_id = #{buyerId,jdbcType=BIGINT},
+      order_sn = #{orderSn,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      payment_status = #{paymentStatus,jdbcType=INTEGER},
+      shipping_status = #{shippingStatus,jdbcType=INTEGER},
+      receiver_id = #{receiverId,jdbcType=BIGINT},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      post_fee = #{postFee,jdbcType=DECIMAL},
+      pay_fee = #{payFee,jdbcType=DECIMAL},
+      point = #{point,jdbcType=BIGINT},
+      memo = #{memo,jdbcType=VARCHAR},
+      trade_no = #{tradeNo,jdbcType=VARCHAR},
+      transaction_id = #{transactionId,jdbcType=VARCHAR},
+      invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      active = #{active,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="shop.pojo.OrderPO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="seller_id" jdbcType="BIGINT" property="sellerId" />
+    <result column="buyer_id" jdbcType="BIGINT" property="buyerId" />
+    <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="payment_status" jdbcType="INTEGER" property="paymentStatus" />
+    <result column="shipping_status" jdbcType="INTEGER" property="shippingStatus" />
+    <result column="receiver_id" jdbcType="BIGINT" property="receiverId" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="post_fee" jdbcType="DECIMAL" property="postFee" />
+    <result column="pay_fee" jdbcType="DECIMAL" property="payFee" />
+    <result column="point" jdbcType="BIGINT" property="point" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="trade_no" jdbcType="VARCHAR" property="tradeNo" />
+    <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
+    <result column="invoice_title" jdbcType="VARCHAR" property="invoiceTitle" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+    <result column="active" jdbcType="BIT" property="active" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, seller_id, buyer_id, order_sn, order_status, payment_status, shipping_status, 
+    receiver_id, total_price, post_fee, pay_fee, point, memo, trade_no, transaction_id, 
+    invoice_title, created, updated, active
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="shop.pojo.OrderPO">
+    insert into t_order (id, seller_id, buyer_id, 
+      order_sn, order_status, payment_status, 
+      shipping_status, receiver_id, total_price, 
+      post_fee, pay_fee, point, 
+      memo, trade_no, transaction_id, 
+      invoice_title, created, updated, 
+      active)
+    values (#{id,jdbcType=BIGINT}, #{sellerId,jdbcType=BIGINT}, #{buyerId,jdbcType=BIGINT}, 
+      #{orderSn,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, #{paymentStatus,jdbcType=INTEGER}, 
+      #{shippingStatus,jdbcType=INTEGER}, #{receiverId,jdbcType=BIGINT}, #{totalPrice,jdbcType=DECIMAL}, 
+      #{postFee,jdbcType=DECIMAL}, #{payFee,jdbcType=DECIMAL}, #{point,jdbcType=BIGINT}, 
+      #{memo,jdbcType=VARCHAR}, #{tradeNo,jdbcType=VARCHAR}, #{transactionId,jdbcType=VARCHAR}, 
+      #{invoiceTitle,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, 
+      #{active,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="shop.pojo.OrderPO">
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sellerId != null">
+        seller_id,
+      </if>
+      <if test="buyerId != null">
+        buyer_id,
+      </if>
+      <if test="orderSn != null">
+        order_sn,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="paymentStatus != null">
+        payment_status,
+      </if>
+      <if test="shippingStatus != null">
+        shipping_status,
+      </if>
+      <if test="receiverId != null">
+        receiver_id,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="postFee != null">
+        post_fee,
+      </if>
+      <if test="payFee != null">
+        pay_fee,
+      </if>
+      <if test="point != null">
+        point,
+      </if>
+      <if test="memo != null">
+        memo,
+      </if>
+      <if test="tradeNo != null">
+        trade_no,
+      </if>
+      <if test="transactionId != null">
+        transaction_id,
+      </if>
+      <if test="invoiceTitle != null">
+        invoice_title,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="active != null">
+        active,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sellerId != null">
+        #{sellerId,jdbcType=BIGINT},
+      </if>
+      <if test="buyerId != null">
+        #{buyerId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSn != null">
+        #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paymentStatus != null">
+        #{paymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="shippingStatus != null">
+        #{shippingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="postFee != null">
+        #{postFee,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null">
+        #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null">
+        #{point,jdbcType=BIGINT},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null">
+        #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null">
+        #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="shop.pojo.OrderPO">
+    update t_order
+    <set>
+      <if test="sellerId != null">
+        seller_id = #{sellerId,jdbcType=BIGINT},
+      </if>
+      <if test="buyerId != null">
+        buyer_id = #{buyerId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSn != null">
+        order_sn = #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paymentStatus != null">
+        payment_status = #{paymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="shippingStatus != null">
+        shipping_status = #{shippingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="receiverId != null">
+        receiver_id = #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="postFee != null">
+        post_fee = #{postFee,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null">
+        pay_fee = #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null">
+        point = #{point,jdbcType=BIGINT},
+      </if>
+      <if test="memo != null">
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null">
+        transaction_id = #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null">
+        invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        active = #{active,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="shop.pojo.OrderPO">
+    update t_order
+    set seller_id = #{sellerId,jdbcType=BIGINT},
+      buyer_id = #{buyerId,jdbcType=BIGINT},
+      order_sn = #{orderSn,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      payment_status = #{paymentStatus,jdbcType=INTEGER},
+      shipping_status = #{shippingStatus,jdbcType=INTEGER},
+      receiver_id = #{receiverId,jdbcType=BIGINT},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      post_fee = #{postFee,jdbcType=DECIMAL},
+      pay_fee = #{payFee,jdbcType=DECIMAL},
+      point = #{point,jdbcType=BIGINT},
+      memo = #{memo,jdbcType=VARCHAR},
+      trade_no = #{tradeNo,jdbcType=VARCHAR},
+      transaction_id = #{transactionId,jdbcType=VARCHAR},
+      invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      active = #{active,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="shop.pojo.OrderPO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="seller_id" jdbcType="BIGINT" property="sellerId" />
+    <result column="buyer_id" jdbcType="BIGINT" property="buyerId" />
+    <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="payment_status" jdbcType="INTEGER" property="paymentStatus" />
+    <result column="shipping_status" jdbcType="INTEGER" property="shippingStatus" />
+    <result column="receiver_id" jdbcType="BIGINT" property="receiverId" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="post_fee" jdbcType="DECIMAL" property="postFee" />
+    <result column="pay_fee" jdbcType="DECIMAL" property="payFee" />
+    <result column="point" jdbcType="BIGINT" property="point" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="trade_no" jdbcType="VARCHAR" property="tradeNo" />
+    <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
+    <result column="invoice_title" jdbcType="VARCHAR" property="invoiceTitle" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+    <result column="active" jdbcType="BIT" property="active" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, seller_id, buyer_id, order_sn, order_status, payment_status, shipping_status, 
+    receiver_id, total_price, post_fee, pay_fee, point, memo, trade_no, transaction_id, 
+    invoice_title, created, updated, active
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="shop.pojo.OrderPO">
+    insert into t_order (id, seller_id, buyer_id, 
+      order_sn, order_status, payment_status, 
+      shipping_status, receiver_id, total_price, 
+      post_fee, pay_fee, point, 
+      memo, trade_no, transaction_id, 
+      invoice_title, created, updated, 
+      active)
+    values (#{id,jdbcType=BIGINT}, #{sellerId,jdbcType=BIGINT}, #{buyerId,jdbcType=BIGINT}, 
+      #{orderSn,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, #{paymentStatus,jdbcType=INTEGER}, 
+      #{shippingStatus,jdbcType=INTEGER}, #{receiverId,jdbcType=BIGINT}, #{totalPrice,jdbcType=DECIMAL}, 
+      #{postFee,jdbcType=DECIMAL}, #{payFee,jdbcType=DECIMAL}, #{point,jdbcType=BIGINT}, 
+      #{memo,jdbcType=VARCHAR}, #{tradeNo,jdbcType=VARCHAR}, #{transactionId,jdbcType=VARCHAR}, 
+      #{invoiceTitle,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, 
+      #{active,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="shop.pojo.OrderPO">
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sellerId != null">
+        seller_id,
+      </if>
+      <if test="buyerId != null">
+        buyer_id,
+      </if>
+      <if test="orderSn != null">
+        order_sn,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="paymentStatus != null">
+        payment_status,
+      </if>
+      <if test="shippingStatus != null">
+        shipping_status,
+      </if>
+      <if test="receiverId != null">
+        receiver_id,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="postFee != null">
+        post_fee,
+      </if>
+      <if test="payFee != null">
+        pay_fee,
+      </if>
+      <if test="point != null">
+        point,
+      </if>
+      <if test="memo != null">
+        memo,
+      </if>
+      <if test="tradeNo != null">
+        trade_no,
+      </if>
+      <if test="transactionId != null">
+        transaction_id,
+      </if>
+      <if test="invoiceTitle != null">
+        invoice_title,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="active != null">
+        active,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sellerId != null">
+        #{sellerId,jdbcType=BIGINT},
+      </if>
+      <if test="buyerId != null">
+        #{buyerId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSn != null">
+        #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paymentStatus != null">
+        #{paymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="shippingStatus != null">
+        #{shippingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="postFee != null">
+        #{postFee,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null">
+        #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null">
+        #{point,jdbcType=BIGINT},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null">
+        #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null">
+        #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="shop.pojo.OrderPO">
+    update t_order
+    <set>
+      <if test="sellerId != null">
+        seller_id = #{sellerId,jdbcType=BIGINT},
+      </if>
+      <if test="buyerId != null">
+        buyer_id = #{buyerId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSn != null">
+        order_sn = #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paymentStatus != null">
+        payment_status = #{paymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="shippingStatus != null">
+        shipping_status = #{shippingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="receiverId != null">
+        receiver_id = #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="postFee != null">
+        post_fee = #{postFee,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null">
+        pay_fee = #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null">
+        point = #{point,jdbcType=BIGINT},
+      </if>
+      <if test="memo != null">
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null">
+        transaction_id = #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null">
+        invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        active = #{active,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="shop.pojo.OrderPO">
+    update t_order
+    set seller_id = #{sellerId,jdbcType=BIGINT},
+      buyer_id = #{buyerId,jdbcType=BIGINT},
+      order_sn = #{orderSn,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      payment_status = #{paymentStatus,jdbcType=INTEGER},
+      shipping_status = #{shippingStatus,jdbcType=INTEGER},
+      receiver_id = #{receiverId,jdbcType=BIGINT},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      post_fee = #{postFee,jdbcType=DECIMAL},
+      pay_fee = #{payFee,jdbcType=DECIMAL},
+      point = #{point,jdbcType=BIGINT},
+      memo = #{memo,jdbcType=VARCHAR},
+      trade_no = #{tradeNo,jdbcType=VARCHAR},
+      transaction_id = #{transactionId,jdbcType=VARCHAR},
+      invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      active = #{active,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="shop.pojo.OrderPO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="seller_id" jdbcType="BIGINT" property="sellerId" />
+    <result column="buyer_id" jdbcType="BIGINT" property="buyerId" />
+    <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="payment_status" jdbcType="INTEGER" property="paymentStatus" />
+    <result column="shipping_status" jdbcType="INTEGER" property="shippingStatus" />
+    <result column="receiver_id" jdbcType="BIGINT" property="receiverId" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="post_fee" jdbcType="DECIMAL" property="postFee" />
+    <result column="pay_fee" jdbcType="DECIMAL" property="payFee" />
+    <result column="point" jdbcType="BIGINT" property="point" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="trade_no" jdbcType="VARCHAR" property="tradeNo" />
+    <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
+    <result column="invoice_title" jdbcType="VARCHAR" property="invoiceTitle" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+    <result column="active" jdbcType="BIT" property="active" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, seller_id, buyer_id, order_sn, order_status, payment_status, shipping_status, 
+    receiver_id, total_price, post_fee, pay_fee, point, memo, trade_no, transaction_id, 
+    invoice_title, created, updated, active
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="shop.pojo.OrderPO">
+    insert into t_order (id, seller_id, buyer_id, 
+      order_sn, order_status, payment_status, 
+      shipping_status, receiver_id, total_price, 
+      post_fee, pay_fee, point, 
+      memo, trade_no, transaction_id, 
+      invoice_title, created, updated, 
+      active)
+    values (#{id,jdbcType=BIGINT}, #{sellerId,jdbcType=BIGINT}, #{buyerId,jdbcType=BIGINT}, 
+      #{orderSn,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, #{paymentStatus,jdbcType=INTEGER}, 
+      #{shippingStatus,jdbcType=INTEGER}, #{receiverId,jdbcType=BIGINT}, #{totalPrice,jdbcType=DECIMAL}, 
+      #{postFee,jdbcType=DECIMAL}, #{payFee,jdbcType=DECIMAL}, #{point,jdbcType=BIGINT}, 
+      #{memo,jdbcType=VARCHAR}, #{tradeNo,jdbcType=VARCHAR}, #{transactionId,jdbcType=VARCHAR}, 
+      #{invoiceTitle,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, 
+      #{active,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="shop.pojo.OrderPO">
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sellerId != null">
+        seller_id,
+      </if>
+      <if test="buyerId != null">
+        buyer_id,
+      </if>
+      <if test="orderSn != null">
+        order_sn,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="paymentStatus != null">
+        payment_status,
+      </if>
+      <if test="shippingStatus != null">
+        shipping_status,
+      </if>
+      <if test="receiverId != null">
+        receiver_id,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="postFee != null">
+        post_fee,
+      </if>
+      <if test="payFee != null">
+        pay_fee,
+      </if>
+      <if test="point != null">
+        point,
+      </if>
+      <if test="memo != null">
+        memo,
+      </if>
+      <if test="tradeNo != null">
+        trade_no,
+      </if>
+      <if test="transactionId != null">
+        transaction_id,
+      </if>
+      <if test="invoiceTitle != null">
+        invoice_title,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="active != null">
+        active,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sellerId != null">
+        #{sellerId,jdbcType=BIGINT},
+      </if>
+      <if test="buyerId != null">
+        #{buyerId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSn != null">
+        #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paymentStatus != null">
+        #{paymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="shippingStatus != null">
+        #{shippingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="postFee != null">
+        #{postFee,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null">
+        #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null">
+        #{point,jdbcType=BIGINT},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null">
+        #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null">
+        #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="shop.pojo.OrderPO">
+    update t_order
+    <set>
+      <if test="sellerId != null">
+        seller_id = #{sellerId,jdbcType=BIGINT},
+      </if>
+      <if test="buyerId != null">
+        buyer_id = #{buyerId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSn != null">
+        order_sn = #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paymentStatus != null">
+        payment_status = #{paymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="shippingStatus != null">
+        shipping_status = #{shippingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="receiverId != null">
+        receiver_id = #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="postFee != null">
+        post_fee = #{postFee,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null">
+        pay_fee = #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null">
+        point = #{point,jdbcType=BIGINT},
+      </if>
+      <if test="memo != null">
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null">
+        transaction_id = #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null">
+        invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        active = #{active,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="shop.pojo.OrderPO">
+    update t_order
+    set seller_id = #{sellerId,jdbcType=BIGINT},
+      buyer_id = #{buyerId,jdbcType=BIGINT},
+      order_sn = #{orderSn,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      payment_status = #{paymentStatus,jdbcType=INTEGER},
+      shipping_status = #{shippingStatus,jdbcType=INTEGER},
+      receiver_id = #{receiverId,jdbcType=BIGINT},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      post_fee = #{postFee,jdbcType=DECIMAL},
+      pay_fee = #{payFee,jdbcType=DECIMAL},
+      point = #{point,jdbcType=BIGINT},
+      memo = #{memo,jdbcType=VARCHAR},
+      trade_no = #{tradeNo,jdbcType=VARCHAR},
+      transaction_id = #{transactionId,jdbcType=VARCHAR},
+      invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      active = #{active,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <resultMap id="BaseResultMap" type="shop.pojo.OrderPO">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="seller_id" jdbcType="BIGINT" property="sellerId" />
+    <result column="buyer_id" jdbcType="BIGINT" property="buyerId" />
+    <result column="order_sn" jdbcType="VARCHAR" property="orderSn" />
+    <result column="order_status" jdbcType="INTEGER" property="orderStatus" />
+    <result column="payment_status" jdbcType="INTEGER" property="paymentStatus" />
+    <result column="shipping_status" jdbcType="INTEGER" property="shippingStatus" />
+    <result column="receiver_id" jdbcType="BIGINT" property="receiverId" />
+    <result column="total_price" jdbcType="DECIMAL" property="totalPrice" />
+    <result column="post_fee" jdbcType="DECIMAL" property="postFee" />
+    <result column="pay_fee" jdbcType="DECIMAL" property="payFee" />
+    <result column="point" jdbcType="BIGINT" property="point" />
+    <result column="memo" jdbcType="VARCHAR" property="memo" />
+    <result column="trade_no" jdbcType="VARCHAR" property="tradeNo" />
+    <result column="transaction_id" jdbcType="VARCHAR" property="transactionId" />
+    <result column="invoice_title" jdbcType="VARCHAR" property="invoiceTitle" />
+    <result column="created" jdbcType="TIMESTAMP" property="created" />
+    <result column="updated" jdbcType="TIMESTAMP" property="updated" />
+    <result column="active" jdbcType="BIT" property="active" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, seller_id, buyer_id, order_sn, order_status, payment_status, shipping_status, 
+    receiver_id, total_price, post_fee, pay_fee, point, memo, trade_no, transaction_id, 
+    invoice_title, created, updated, active
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from t_order
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="shop.pojo.OrderPO">
+    insert into t_order (id, seller_id, buyer_id, 
+      order_sn, order_status, payment_status, 
+      shipping_status, receiver_id, total_price, 
+      post_fee, pay_fee, point, 
+      memo, trade_no, transaction_id, 
+      invoice_title, created, updated, 
+      active)
+    values (#{id,jdbcType=BIGINT}, #{sellerId,jdbcType=BIGINT}, #{buyerId,jdbcType=BIGINT}, 
+      #{orderSn,jdbcType=VARCHAR}, #{orderStatus,jdbcType=INTEGER}, #{paymentStatus,jdbcType=INTEGER}, 
+      #{shippingStatus,jdbcType=INTEGER}, #{receiverId,jdbcType=BIGINT}, #{totalPrice,jdbcType=DECIMAL}, 
+      #{postFee,jdbcType=DECIMAL}, #{payFee,jdbcType=DECIMAL}, #{point,jdbcType=BIGINT}, 
+      #{memo,jdbcType=VARCHAR}, #{tradeNo,jdbcType=VARCHAR}, #{transactionId,jdbcType=VARCHAR}, 
+      #{invoiceTitle,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, 
+      #{active,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="shop.pojo.OrderPO">
+    insert into t_order
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="sellerId != null">
+        seller_id,
+      </if>
+      <if test="buyerId != null">
+        buyer_id,
+      </if>
+      <if test="orderSn != null">
+        order_sn,
+      </if>
+      <if test="orderStatus != null">
+        order_status,
+      </if>
+      <if test="paymentStatus != null">
+        payment_status,
+      </if>
+      <if test="shippingStatus != null">
+        shipping_status,
+      </if>
+      <if test="receiverId != null">
+        receiver_id,
+      </if>
+      <if test="totalPrice != null">
+        total_price,
+      </if>
+      <if test="postFee != null">
+        post_fee,
+      </if>
+      <if test="payFee != null">
+        pay_fee,
+      </if>
+      <if test="point != null">
+        point,
+      </if>
+      <if test="memo != null">
+        memo,
+      </if>
+      <if test="tradeNo != null">
+        trade_no,
+      </if>
+      <if test="transactionId != null">
+        transaction_id,
+      </if>
+      <if test="invoiceTitle != null">
+        invoice_title,
+      </if>
+      <if test="created != null">
+        created,
+      </if>
+      <if test="updated != null">
+        updated,
+      </if>
+      <if test="active != null">
+        active,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="sellerId != null">
+        #{sellerId,jdbcType=BIGINT},
+      </if>
+      <if test="buyerId != null">
+        #{buyerId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSn != null">
+        #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paymentStatus != null">
+        #{paymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="shippingStatus != null">
+        #{shippingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="receiverId != null">
+        #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="totalPrice != null">
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="postFee != null">
+        #{postFee,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null">
+        #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null">
+        #{point,jdbcType=BIGINT},
+      </if>
+      <if test="memo != null">
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null">
+        #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null">
+        #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        #{active,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="shop.pojo.OrderPO">
+    update t_order
+    <set>
+      <if test="sellerId != null">
+        seller_id = #{sellerId,jdbcType=BIGINT},
+      </if>
+      <if test="buyerId != null">
+        buyer_id = #{buyerId,jdbcType=BIGINT},
+      </if>
+      <if test="orderSn != null">
+        order_sn = #{orderSn,jdbcType=VARCHAR},
+      </if>
+      <if test="orderStatus != null">
+        order_status = #{orderStatus,jdbcType=INTEGER},
+      </if>
+      <if test="paymentStatus != null">
+        payment_status = #{paymentStatus,jdbcType=INTEGER},
+      </if>
+      <if test="shippingStatus != null">
+        shipping_status = #{shippingStatus,jdbcType=INTEGER},
+      </if>
+      <if test="receiverId != null">
+        receiver_id = #{receiverId,jdbcType=BIGINT},
+      </if>
+      <if test="totalPrice != null">
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
+      <if test="postFee != null">
+        post_fee = #{postFee,jdbcType=DECIMAL},
+      </if>
+      <if test="payFee != null">
+        pay_fee = #{payFee,jdbcType=DECIMAL},
+      </if>
+      <if test="point != null">
+        point = #{point,jdbcType=BIGINT},
+      </if>
+      <if test="memo != null">
+        memo = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeNo != null">
+        trade_no = #{tradeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="transactionId != null">
+        transaction_id = #{transactionId,jdbcType=VARCHAR},
+      </if>
+      <if test="invoiceTitle != null">
+        invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="created != null">
+        created = #{created,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updated != null">
+        updated = #{updated,jdbcType=TIMESTAMP},
+      </if>
+      <if test="active != null">
+        active = #{active,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="shop.pojo.OrderPO">
+    update t_order
+    set seller_id = #{sellerId,jdbcType=BIGINT},
+      buyer_id = #{buyerId,jdbcType=BIGINT},
+      order_sn = #{orderSn,jdbcType=VARCHAR},
+      order_status = #{orderStatus,jdbcType=INTEGER},
+      payment_status = #{paymentStatus,jdbcType=INTEGER},
+      shipping_status = #{shippingStatus,jdbcType=INTEGER},
+      receiver_id = #{receiverId,jdbcType=BIGINT},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      post_fee = #{postFee,jdbcType=DECIMAL},
+      pay_fee = #{payFee,jdbcType=DECIMAL},
+      point = #{point,jdbcType=BIGINT},
+      memo = #{memo,jdbcType=VARCHAR},
+      trade_no = #{tradeNo,jdbcType=VARCHAR},
+      transaction_id = #{transactionId,jdbcType=VARCHAR},
+      invoice_title = #{invoiceTitle,jdbcType=VARCHAR},
+      created = #{created,jdbcType=TIMESTAMP},
+      updated = #{updated,jdbcType=TIMESTAMP},
+      active = #{active,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
