@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import shop.dao.OrderItemPOMapper;
-import shop.mapper.OrderMapper;
 import shop.model.OrderModel;
 import shop.service.OrderService;
 import shop.utils.GenerateNum;

@@ -22,7 +22,7 @@ public class ProductController {
     @RequestMapping(value = "category/all")
     @ResponseBody
     public Map login() {
-        ProductModel fe = productService.getProductById(2);
+        //ProductModel fe = productService.getProductById(2);
        return null;
     }
 }

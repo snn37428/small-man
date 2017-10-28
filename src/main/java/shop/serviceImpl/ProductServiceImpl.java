@@ -1,24 +1,17 @@
 package shop.serviceImpl;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.util.CollectionUtils;
 import shop.base.BaseMap.ResMap;
-import shop.dao.ProductDO;
 import shop.dao.ProductPOMapper;
-import shop.mapper.ProductDOMapper;
-import shop.mapper.ProductMapper;
 import shop.model.ProductModel;
 import shop.pojo.ProductPO;
 import shop.service.ProductService;
 import shop.utils.RedisUtils;
 import shop.vo.ProductVo;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
