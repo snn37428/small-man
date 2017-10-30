@@ -32,8 +32,7 @@ public class ProductServiceImpl implements ProductService {
 
 
     public ProductPO getProductById(long id) {
-        productPOMapper.selectByPrimaryKey(id);
-        return null;
+        return productPOMapper.selectByPrimaryKey(id);
     }
 
     public Map listProduct() {

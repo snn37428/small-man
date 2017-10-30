@@ -15,14 +15,13 @@ public class RedisUtilsImpl implements RedisUtils {
     @Autowired
     private JedisPool jedisPool;
 
-    @Override
+
     public void set(String key, String value) {
         Jedis jedis = this.getJedis();
         jedis.set(key, value);
         this.releaseJedis(jedis);
     }
 
-    @Override
     public void set(String key, String value, Integer seconds) {
         Jedis jedis = this.getJedis();
         jedis.set(key, value);
@@ -30,7 +29,6 @@ public class RedisUtilsImpl implements RedisUtils {
         this.releaseJedis(jedis);
     }
 
-    @Override
     public String get(String key) {
         Jedis jedis = this.getJedis();
         String result = jedis.get(key);
@@ -38,21 +36,18 @@ public class RedisUtilsImpl implements RedisUtils {
         return result;
     }
 
-    @Override
     public void del(String key) {
         Jedis jedis = this.getJedis();
         jedis.del(key);
         this.releaseJedis(jedis);
     }
 
-    @Override
     public void expire(String key, Integer seconds) {
         Jedis jedis = this.getJedis();
         jedis.expire(key, seconds);
         this.releaseJedis(jedis);
     }
 
-    @Override
     public Long incr(String key) {
         Jedis jedis = this.getJedis();
         Long count = jedis.incr(key);
@@ -60,7 +55,6 @@ public class RedisUtilsImpl implements RedisUtils {
         return count;
     }
 
-    @Override
     public void setObject(String key, Object object) {
         Jedis jedis = this.getJedis();
         byte[] serStr = SerializationUtil.serialize(object);
@@ -68,22 +62,9 @@ public class RedisUtilsImpl implements RedisUtils {
         this.releaseJedis(jedis);
     }
 
-    @Override
     public Object getObject(String key) {
-        Jedis jedis = this.getJedis();
-        String strRs = jedis.get(key);
-        if (StringUtils.isEmpty(strRs)) {
-            return null;
-        }
-        Object obj = SerializationUtil.deserialize(strRs.getBytes());
-        this.releaseJedis(jedis);
-        return obj;
+        return null;
     }
-
-    public void incrOrder(String key) {
-
-    }
-
 
     /**
      * 获取Jedis连接
@@ -98,5 +79,4 @@ public class RedisUtilsImpl implements RedisUtils {
     public void releaseJedis(Jedis jedis) {
         jedis.disconnect();
     }
-
 }
