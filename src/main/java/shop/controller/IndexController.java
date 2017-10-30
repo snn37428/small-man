@@ -24,13 +24,14 @@ public class IndexController {
     @RequestMapping(value = "banner/list")
     @ResponseBody
     public Map listBanner() {
-        return indexService.listBanner();
+       return indexService.listBanner();
     }
 
     @RequestMapping(value = "product/all")
     public Map login() {
         System.out.println("product/all begin----");
-        return productService.listProduct();
+        productService.listProduct();
+        return null;
     }
 
 

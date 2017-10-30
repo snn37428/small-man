@@ -1,17 +1,20 @@
 package shop.serviceImpl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import shop.base.BaseMap.ResMap;
 import shop.dao.ProductPOMapper;
-import shop.model.ProductModel;
 import shop.pojo.ProductPO;
 import shop.service.ProductService;
 import shop.utils.RedisUtils;
 import shop.vo.ProductVo;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +32,8 @@ public class ProductServiceImpl implements ProductService {
 
 
     public ProductPO getProductById(long id) {
-        return productPOMapper.selectByPrimaryKey(id);
+        productPOMapper.selectByPrimaryKey(id);
+        return null;
     }
 
     public Map listProduct() {
@@ -39,11 +43,9 @@ public class ProductServiceImpl implements ProductService {
         if (StringUtils.isNotBlank(pvList)) {
             return ResMap.getSuccessMap(JSONObject.parseArray(pvList, ProductVo.class));
         }
-
-        // List<ProductPO> pvLists = this.convertProduct(productPOMapper.listProduct(0));
-        //  redisUtils.set("listProduct", JSON.toJSON(pvLists).toString());
-        //  return ResMap.getSuccessMap(pvLists);
-        return null;
+        List<ProductVo> pvLists = this.convertProduct(productPOMapper.listProduct());
+        redisUtils.set("listProduct", JSON.toJSON(pvLists).toString());
+        return ResMap.getSuccessMap(pvLists);
     }
 
 
@@ -53,25 +55,23 @@ public class ProductServiceImpl implements ProductService {
      * @param listProductModel
      * @return
      */
-    private List<ProductPO> convertProduct(List<ProductModel> listProductModel) {
+    private List<ProductVo> convertProduct(List<ProductPO> listProductModel) {
 
-//        List<ProductVo> productVos = new ArrayList<ProductVo>();
-//
-//        if (CollectionUtils.isEmpty(listProductModel)) {
-//            return productVos;
-//        }
-//
-//        for (ProductModel productModel : listProductModel) {
-//            if (productModel == null) {
-//                continue;
-//            }
-//            ProductVo productVo = new ProductVo();
-//            BeanUtils.copyProperties(productVo, productModel);
-//            productVo.setIcon(productModel.getImage());
-//            productVos.add(productVo);
-//        }
-//        return productVos;
-//    }
-        return null;
+        List<ProductVo> productVos = new ArrayList<ProductVo>();
+
+        if (CollectionUtils.isEmpty(listProductModel)) {
+            return productVos;
+        }
+
+        for (ProductPO productPO : listProductModel) {
+            if (productPO == null) {
+                continue;
+            }
+            ProductVo productVo = new ProductVo();
+            BeanUtils.copyProperties(productVo, productPO);
+            productVo.setIcon(productPO.getImage());
+            productVos.add(productVo);
+        }
+        return productVos;
     }
 }

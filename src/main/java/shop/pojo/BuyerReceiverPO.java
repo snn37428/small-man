@@ -5,7 +5,7 @@ import java.util.Date;
 public class BuyerReceiverPO {
     private Long id;
 
-    private Long buyerId;
+    private String buyerId;
 
     private String receiverName;
 
@@ -41,12 +41,12 @@ public class BuyerReceiverPO {
         this.id = id;
     }
 
-    public Long getBuyerId() {
+    public String getBuyerId() {
         return buyerId;
     }
 
-    public void setBuyerId(Long buyerId) {
-        this.buyerId = buyerId;
+    public void setBuyerId(String buyerId) {
+        this.buyerId = buyerId == null ? null : buyerId.trim();
     }
 
     public String getReceiverName() {

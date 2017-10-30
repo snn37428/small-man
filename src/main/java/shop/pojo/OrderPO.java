@@ -8,7 +8,7 @@ public class OrderPO {
 
     private Long sellerId;
 
-    private Long buyerId;
+    private String buyerId;
 
     private String orderSn;
 
@@ -18,7 +18,7 @@ public class OrderPO {
 
     private Integer shippingStatus;
 
-    private Long receiverId;
+    private String receiverId;
 
     private BigDecimal totalPrice;
 
@@ -58,12 +58,12 @@ public class OrderPO {
         this.sellerId = sellerId;
     }
 
-    public Long getBuyerId() {
+    public String getBuyerId() {
         return buyerId;
     }
 
-    public void setBuyerId(Long buyerId) {
-        this.buyerId = buyerId;
+    public void setBuyerId(String buyerId) {
+        this.buyerId = buyerId == null ? null : buyerId.trim();
     }
 
     public String getOrderSn() {
@@ -98,12 +98,12 @@ public class OrderPO {
         this.shippingStatus = shippingStatus;
     }
 
-    public Long getReceiverId() {
+    public String getReceiverId() {
         return receiverId;
     }
 
-    public void setReceiverId(Long receiverId) {
-        this.receiverId = receiverId;
+    public void setReceiverId(String receiverId) {
+        this.receiverId = receiverId == null ? null : receiverId.trim();
     }
 
     public BigDecimal getTotalPrice() {

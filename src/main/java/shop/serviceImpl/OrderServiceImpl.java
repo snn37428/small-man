@@ -3,12 +3,13 @@ package shop.serviceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import shop.dao.OrderItemPOMapper;
-import shop.model.OrderModel;
+import shop.dao.OrderPOMapper;
+import shop.pojo.OrderPO;
 import shop.service.OrderService;
 import shop.utils.GenerateNum;
 import shop.utils.RedisUtils;
 
+import java.math.BigDecimal;
 import java.util.Map;
 
 /**
@@ -19,27 +20,31 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private RedisUtils redisUtils;
-
     @Autowired
-    private OrderItemPOMapper orderItemPOMapper;
+    private OrderPOMapper orderPOMapper;
 
 
     @Transactional(rollbackFor=Exception.class)
     public void createOrder(){
-        OrderModel orderModel = new OrderModel();
-            orderModel.setBuyerId("122");
-            orderModel.setTotalPrice(20);
-            orderModel.setOpendId("first");
-            orderModel.setPayStatus(0);
-            orderModel.setOrderStatus(1);
-            orderModel.setShippingStatus(0);
-            orderModel.setOrderId(GenerateNum.getInstance().GenerateOrder());
-            orderModel.setReceiverId("se");
-            //orderItemPOMapper.insert();
+        OrderPO orderPO = new OrderPO();
+        orderPO.setSellerId(1L);
+        orderPO.setBuyerId("122");
+        orderPO.setTotalPrice(new BigDecimal(20));
+        orderPO.setPaymentStatus(2);
+        orderPO.setOrderStatus(1);
+        orderPO.setShippingStatus(0);
+        orderPO.setOrderSn(GenerateNum.getInstance().GenerateOrder());
+        orderPO.setReceiverId("se");
+        orderPO.setActive(true);
+        orderPOMapper.insert(orderPO);
+
     }
 
 
     public Map create(String str) {
+
+        this.createOrder();
+
         return null;
     }
 

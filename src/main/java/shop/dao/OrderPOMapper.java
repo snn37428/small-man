@@ -1,7 +1,8 @@
 package shop.dao;
 
+import org.springframework.stereotype.Repository;
 import shop.pojo.OrderPO;
-
+@Repository("orderPOMapper")
 public interface OrderPOMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -14,4 +15,5 @@ public interface OrderPOMapper {
     int updateByPrimaryKeySelective(OrderPO record);
 
     int updateByPrimaryKey(OrderPO record);
+
 }
