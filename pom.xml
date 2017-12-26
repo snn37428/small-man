@@ -136,13 +136,6 @@
       <version>1.1.41</version>
     </dependency>
 
-    <!--modbus jar -->
-    <dependency>
-      <groupId>net.wimpi</groupId>
-      <artifactId>jamod</artifactId>
-      <version>1.2</version>
-    </dependency>
-
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
@@ -195,6 +188,11 @@
       <artifactId>commons-lang3</artifactId>
       <version>3.0</version>
     </dependency>
+      <dependency>
+          <groupId>junit</groupId>
+          <artifactId>junit</artifactId>
+          <version>RELEASE</version>
+      </dependency>
 
   </dependencies>
 
@@ -256,6 +254,14 @@
           </dependency>
         </dependencies>
       </plugin>
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+            <configuration>
+                <source>1.6</source>
+                <target>1.6</target>
+            </configuration>
+        </plugin>
     </plugins>
 
   </build>
