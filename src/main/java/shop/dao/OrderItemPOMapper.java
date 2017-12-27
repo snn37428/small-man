@@ -1,7 +1,8 @@
 package shop.dao;
 
+import org.springframework.stereotype.Repository;
 import shop.pojo.OrderItemPO;
-
+@Repository("orderItemPOMapper")
 public interface OrderItemPOMapper {
     int deleteByPrimaryKey(Long id);
 

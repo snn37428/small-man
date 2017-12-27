@@ -2,8 +2,11 @@ package shop.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import shop.dao.OrderItemPOMapper;
 import shop.dao.OrderPOMapper;
+import shop.pojo.OrderItemPO;
 import shop.pojo.OrderPO;
 import shop.service.OrderService;
 import shop.utils.GenerateNum;
@@ -22,13 +25,13 @@ public class OrderServiceImpl implements OrderService {
     private RedisUtils redisUtils;
     @Autowired
     private OrderPOMapper orderPOMapper;
+    @Autowired
+    private OrderItemPOMapper orderItemPOMapper;
 
-
-    @Transactional(rollbackFor=Exception.class)
-    public void createOrder(){
+    public Map create(String str) {
         OrderPO orderPO = new OrderPO();
         orderPO.setSellerId(1L);
-        orderPO.setBuyerId("122");
+        orderPO.setBuyerId("4545");
         orderPO.setTotalPrice(new BigDecimal(20));
         orderPO.setPaymentStatus(2);
         orderPO.setOrderStatus(1);
@@ -36,16 +39,13 @@ public class OrderServiceImpl implements OrderService {
         orderPO.setOrderSn(GenerateNum.getInstance().GenerateOrder());
         orderPO.setReceiverId("se");
         orderPO.setActive(true);
-        orderPOMapper.insert(orderPO);
-
+        this.insertOrderTransactional(orderPO, new OrderItemPO());
+        return null;
     }
 
-
-    public Map create(String str) {
-
-        this.createOrder();
-
-        return null;
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
+    public void insertOrderTransactional(OrderPO op, OrderItemPO itemPO){
+        orderPOMapper.insert(op);
     }
 
     public Map getOrderByToken(int token) {

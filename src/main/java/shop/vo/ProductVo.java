@@ -6,6 +6,8 @@ import java.io.Serializable;
  * Created by songningning1 on 2017/9/26.
  */
 public class ProductVo implements Serializable{
+
+    private static final long serialVersionUID = 7169105244580471743L;
     private int id;
     private int userId;
     private int type;
