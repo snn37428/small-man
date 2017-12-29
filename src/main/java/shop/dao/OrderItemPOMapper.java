@@ -1,8 +1,12 @@
 package shop.dao;
 
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import shop.pojo.OrderItemPO;
-@Repository("orderItemPOMapper")
+
+import javax.annotation.Resource;
+
+@Service("OrderItemPOMapper")
 public interface OrderItemPOMapper {
     int deleteByPrimaryKey(Long id);
 
