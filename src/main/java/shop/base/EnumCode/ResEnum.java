@@ -5,6 +5,7 @@ package shop.base.EnumCode;
  */
 public enum ResEnum {
     ON_ERROR(0, "成功"),
+    FAILEd(9, "失败"),
     KEY_NULL_ERROR(1, "key为空或者有误"),
     REQ_PARAM_ERROR(2, "请求参数有误"),
     RES_RESULT_NULL(9, "接口返回值为空"),

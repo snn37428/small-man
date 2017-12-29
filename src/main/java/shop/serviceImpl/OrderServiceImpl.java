@@ -27,7 +27,7 @@ public class OrderServiceImpl implements OrderService {
     @Resource(name = "orderPOMapper")
     private OrderPOMapper orderPOMapper;
 
-    @Resource(name = "orderItemPOMapper")
+    @Resource(name = "OrderItemPOMapper")
     private OrderItemPOMapper orderItemPOMapper;
 
     public Map create(String str) {

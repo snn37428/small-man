@@ -25,7 +25,8 @@ public class IndexController {
     @RequestMapping(value = "banner/list")
     @ResponseBody
     public Map listBanner() {
-       return indexService.listBanner();
+
+        return indexService.listBanner();
     }
 
     @RequestMapping(value = "product/all")

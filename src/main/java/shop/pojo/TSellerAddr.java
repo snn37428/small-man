@@ -5,7 +5,7 @@ import java.util.Date;
 public class TSellerAddr {
     private Long id;
 
-    private Long sellerId;
+    private String sellerId;
 
     private Long areaId;
 
@@ -41,11 +41,11 @@ public class TSellerAddr {
         this.id = id;
     }
 
-    public Long getSellerId() {
+    public String getSellerId() {
         return sellerId;
     }
 
-    public void setSellerId(Long sellerId) {
+    public void setSellerId(String sellerId) {
         this.sellerId = sellerId;
     }
 

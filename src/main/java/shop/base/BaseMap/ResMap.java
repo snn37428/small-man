@@ -10,8 +10,10 @@ import java.util.Map;
  */
 public class ResMap {
 
-    /** 返回失败
-     * @param key 错误码
+    /**
+     * 返回失败
+     *
+     * @param key   错误码
      * @param value 错误说明
      * @return
      */
@@ -27,6 +29,7 @@ public class ResMap {
 
     /**
      * 返回成功数据
+     *
      * @param data 返回的data数据
      * @return
      */
@@ -39,11 +42,61 @@ public class ResMap {
         return map;
     }
 
+    /**
+     * 返回失败数据
+     *
+     * @param data 返回的data数据
+     * @return
+     */
+    public static <T> Map getFailedMap(T data) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("code", ResEnum.FAILEd.getValue());
+        map.put("msg", ResEnum.FAILEd.getValue());
+        map.put("success", true);
+        map.put("data", data);
+        return map;
+    }
+
+
+
     public static Map<String, Object> getMap(Object data) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("success", true);
         map.put("data", data);
         return map;
     }
+
+
+    /**
+     * 返回异常Map
+     *
+     * @return
+     */
+    public static Map<String, Object> getExceptionMap() {
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("code", "404");
+        map.put("msg", "方法异常");
+        map.put("success", false);
+        map.put("data", null);
+        return map;
+    }
+
+
+    /**
+     * 返回参数空Map
+     *
+     * @return
+     */
+    public static Map<String, Object> getNullParamMap() {
+
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("code", "405");
+        map.put("msg", "参数为空");
+        map.put("success", false);
+        map.put("data", null);
+        return map;
+    }
+
 
 }
