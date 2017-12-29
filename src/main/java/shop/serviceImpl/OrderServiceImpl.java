@@ -12,20 +12,22 @@ import shop.service.OrderService;
 import shop.utils.GenerateNum;
 import shop.utils.RedisUtils;
 
+import javax.annotation.Resource;
 import java.math.BigDecimal;
 import java.util.Map;
 
 /**
  * Created by songningning1 on 2017/10/17.
  */
-@Service
+@Service("OrderServiceImpl")
 public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private RedisUtils redisUtils;
-    @Autowired
+    @Resource(name = "orderPOMapper")
     private OrderPOMapper orderPOMapper;
-    @Autowired
+
+    @Resource(name = "orderItemPOMapper")
     private OrderItemPOMapper orderItemPOMapper;
 
     public Map create(String str) {

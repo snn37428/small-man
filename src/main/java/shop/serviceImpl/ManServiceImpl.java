@@ -11,7 +11,7 @@ import java.util.Map;
 /**
  * Created by songningning1 on 2017/10/13.
  */
-@Service
+@Service("ManServiceImpl")
 public class ManServiceImpl implements ManService {
 
     @Autowired

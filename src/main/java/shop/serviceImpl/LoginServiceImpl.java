@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * Created by songningning1 on 2017/9/9.
  */
-@Service
+@Service("LoginServiceImpl")
 public class LoginServiceImpl implements LoginService {
 
 

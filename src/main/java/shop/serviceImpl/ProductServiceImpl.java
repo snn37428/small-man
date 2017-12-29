@@ -14,6 +14,7 @@ import shop.service.ProductService;
 import shop.utils.RedisUtils;
 import shop.vo.ProductVo;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +22,10 @@ import java.util.Map;
 /**
  * Created by songningning1 on 2017/9/25.
  */
-@Service
+@Service("ProductServiceImpl")
 public class ProductServiceImpl implements ProductService {
 
-    @Autowired
+    @Resource(name = "productPOMapper")
     private ProductPOMapper productPOMapper;
 
     @Autowired

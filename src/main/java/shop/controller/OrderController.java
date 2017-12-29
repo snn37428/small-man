@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shop.service.OrderService;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Map;
 @RequestMapping("/order")
 public class OrderController {
 
-    @Autowired
+    @Resource(name = "OrderServiceImpl")
     private OrderService orderService;
 
     @RequestMapping(value = "create")

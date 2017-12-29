@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shop.base.EnumCode.ResEnum;
 import shop.service.LoginService;
 import shop.base.BaseMap.ResMap;
+
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -18,7 +20,7 @@ import java.util.Map;
 @RequestMapping("/login")
 public class LoginController {
 
-    @Autowired
+    @Resource(name = "LoginServiceImpl")
     private LoginService loginService;
 
     @RequestMapping(value = "in")

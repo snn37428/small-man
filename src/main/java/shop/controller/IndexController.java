@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shop.service.IndexService;
 import shop.service.ProductService;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -16,9 +17,9 @@ import java.util.Map;
 @RequestMapping("/index")
 public class IndexController {
 
-    @Autowired
+    @Resource(name = "IndexServiceImpl")
     private IndexService indexService;
-    @Autowired
+    @Resource(name = "ProductServiceImpl")
     private ProductService productService;
 
     @RequestMapping(value = "banner/list")

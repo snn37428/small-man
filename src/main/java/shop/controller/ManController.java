@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shop.service.ManService;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -16,7 +17,7 @@ import java.util.Map;
 @RequestMapping("/man/redis")
 public class ManController {
 
-    @Autowired
+    @Resource(name = "ManServiceImpl")
     private ManService manService;
 
     @RequestMapping(value = "clean")

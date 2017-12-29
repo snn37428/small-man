@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * Created by songningning1 on 2017/9/17.
  */
-@Service
+@Service("IndexServiceImpl")
 public class IndexServiceImpl implements IndexService {
 
 

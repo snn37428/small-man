@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import shop.model.ProductModel;
 import shop.service.ProductService;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 /**
@@ -16,7 +17,7 @@ import java.util.Map;
 @RequestMapping("/product")
 public class ProductController {
 
-    @Autowired
+    @Resource(name = "ProductServiceImpl")
     private ProductService productService;
 
     @RequestMapping(value = "category/all")
