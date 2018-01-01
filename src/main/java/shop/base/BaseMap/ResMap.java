@@ -99,4 +99,17 @@ public class ResMap {
     }
 
 
+
+    /**
+     * 返回成功，数据为空Map
+     *
+     * @param data 返回的data数据
+     * @return
+     */
+    public static <T> Map getNullDataMap(T data) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        return map;
+    }
+
+
 }

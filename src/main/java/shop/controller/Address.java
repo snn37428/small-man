@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shop.base.BaseMap.ResMap;
+import shop.pojo.Auc;
 import shop.pojo.TSellerAddr;
 import shop.service.AddressService;
 
@@ -33,11 +34,21 @@ public class Address {
     }
 
     @RequestMapping(value = "update")
-    public @ResponseBody Map update(TSellerAddr SellerAddrress) {
+    public @ResponseBody Map update(TSellerAddr SellerAddr) {
         try {
-            return addressService.updateAddress(SellerAddrress);
+            return addressService.updateAddress(SellerAddr);
         } catch (Exception e) {
             logger.error("添加地址，异常" + e);
+            return ResMap.getExceptionMap();
+        }
+    }
+
+    @RequestMapping(value = "detail")
+    public @ResponseBody Map detail (Auc auc) {
+        try {
+            return addressService.detail(auc);
+        } catch (Exception e) {
+            logger.error("获得用户全部地址，异常" + e);
             return ResMap.getExceptionMap();
         }
     }

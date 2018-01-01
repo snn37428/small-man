@@ -4,13 +4,16 @@ import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import shop.base.BaseMap.ResMap;
 import shop.base.EnumCode.ResEnum;
 import shop.dao.TSellerAddrMapper;
+import shop.pojo.Auc;
 import shop.pojo.TSellerAddr;
 import shop.service.AddressService;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -61,6 +64,30 @@ public class AddressServiceImpl implements AddressService {
         } else {
             return ResMap.getFailedMap("数据库插入失败");
         }
+    }
+
+    @Override
+    public Map detail(Auc auc) {
+
+        if (auc == null) {
+            logger.info("获取地址，参数为空，param:" + JSON.toJSONString(auc));
+            return ResMap.getNullParamMap();
+        }
+
+        if (StringUtils.isBlank(auc.getOpendId()) || StringUtils.isBlank(auc.getToken())) {
+            logger.info("获取全部地址，参数存有空值，param:" + JSON.toJSONString(auc));
+            return ResMap.getNullParamMap();
+        }
+
+        List<TSellerAddr> addressList = tSellerAddrMapper.selectAddressList(auc);
+
+        if (CollectionUtils.isEmpty(addressList)) {
+            logger.info("获取全部地址，查询数据为空，param:" + JSON.toJSONString(auc));
+            return ResMap.getMap(ResMap.getFailedMap("null"));
+        }
+
+       return ResMap.getMap(ResMap.getSuccessMap(addressList));
+
     }
 
 

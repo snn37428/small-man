@@ -94,6 +94,24 @@
       order by ${orderByClause}
     </if>
   </select>
+
+  <select id="selectAddressList" resultMap="BaseResultMap" parameterType="shop.pojo.Auc" >
+    select
+    <include refid="Base_Column_List" />
+    from t_seller_addr
+    where seller_id = #{seller_id}
+  </select>
+
+
+
+
+
+
+
+
+
+
+
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
