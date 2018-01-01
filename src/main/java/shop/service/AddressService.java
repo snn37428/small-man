@@ -1,6 +1,7 @@
 package shop.service;
 
 import shop.base.BaseMap.ResMap;
+import shop.pojo.TSellerAddr;
 
 import java.util.Map;
 
@@ -10,12 +11,12 @@ public interface AddressService {
      *
      * @return
      */
-    Map insertAddress(String code);
+    Map insertAddress(TSellerAddr sellerAddr);
 
     /**
      * 更改地址
-     * @param code
+     * @param sellerAddr
      * @return
      */
-    Map updateAddress(String code);
+    Map updateAddress(TSellerAddr sellerAddr);
 }

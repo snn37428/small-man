@@ -121,7 +121,7 @@
       #{contactName,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
       #{province,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
       #{phone,jdbcType=VARCHAR}, #{sellerCompany,jdbcType=VARCHAR}, #{zipCode,jdbcType=VARCHAR}, 
-      #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, #{active,jdbcType=INTEGER}
+      now(), now(), #{active,jdbcType=INTEGER}
       )
   </insert>
   <insert id="insertSelective" parameterType="shop.pojo.TSellerAddr" >
