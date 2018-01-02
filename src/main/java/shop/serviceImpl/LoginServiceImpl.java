@@ -33,7 +33,10 @@ public class LoginServiceImpl implements LoginService {
 
     public Map in(String code) {
         try {
-            String params = "appid=" + WXLoginFinal.getWxAppid().trim() + "&secret=" + WXLoginFinal.getwxSecret().trim() + "&js_code=" + code.trim() + "&grant_type=" + WXLoginFinal.getGrant_type().trim();
+            String params =  new StringBuilder().append("appid=").append(WXLoginFinal.getWxAppid().trim()).append("&secret=").append(WXLoginFinal.getwxSecret().trim()).append("&js_code=").append(code.trim()).
+                    append(WXLoginFinal.getGrant_type().trim()).toString();
+
+           // String params = "appid=" + WXLoginFinal.getWxAppid().trim() + "&secret=" + WXLoginFinal.getwxSecret().trim() + "&js_code=" + code.trim() + "&grant_type=" + WXLoginFinal.getGrant_type().trim();
             //发送请求获取openId
             String data = HttpRequest.sendPost(WXLoginFinal.getUrl().trim(), params);
 
@@ -60,7 +63,7 @@ public class LoginServiceImpl implements LoginService {
             return ResMap.getSuccessMap(resMap);
 
         } catch (Exception e) {
-            log.error("获取微信openId失败");
+            log.error("获取微信openId失败", e);
         }
         return null;
     }

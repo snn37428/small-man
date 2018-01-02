@@ -99,7 +99,7 @@
     select
     <include refid="Base_Column_List" />
     from t_seller_addr
-    where seller_id = #{seller_id}
+    where seller_id = #{opendId}
   </select>
 
 

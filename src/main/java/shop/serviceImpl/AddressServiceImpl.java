@@ -74,7 +74,7 @@ public class AddressServiceImpl implements AddressService {
             return ResMap.getNullParamMap();
         }
 
-        if (StringUtils.isBlank(auc.getOpendId()) || StringUtils.isBlank(auc.getToken())) {
+        if (StringUtils.isBlank(auc.getOpendId())) {
             logger.info("获取全部地址，参数存有空值，param:" + JSON.toJSONString(auc));
             return ResMap.getNullParamMap();
         }
