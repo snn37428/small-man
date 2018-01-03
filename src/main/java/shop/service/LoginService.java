@@ -19,7 +19,7 @@ public interface LoginService {
      * @param token
      * @return
      */
-    Map checkToken(String token);
+    Boolean checkToken(String token);
 
     /**
      * 验证，解密session

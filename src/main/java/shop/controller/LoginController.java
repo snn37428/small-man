@@ -33,10 +33,10 @@ public class LoginController {
         return loginService.in(code);
     }
 
-    @RequestMapping(value = "token")
-    @ResponseBody
-    public Map checkToken(@RequestParam String token) {
-        return loginService.checkToken(token);
-    }
+//    @RequestMapping(value = "token")
+//    @ResponseBody
+//    public Map checkToken(@RequestParam String token) {
+//        return loginService.checkToken(token);
+//    }
 
 }
