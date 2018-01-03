@@ -11,7 +11,7 @@ public class TyUser {
 
     private String sessionkey;
 
-    private Date create;
+    private Date created;
 
     public Integer getId() {
         return id;
@@ -45,11 +45,11 @@ public class TyUser {
         this.sessionkey = sessionkey == null ? null : sessionkey.trim();
     }
 
-    public Date getCreate() {
-        return create;
+    public Date getCreated() {
+        return created;
     }
 
-    public void setCreate(Date create) {
-        this.create = create;
+    public void setCreated(Date created) {
+        this.created = created;
     }
 }

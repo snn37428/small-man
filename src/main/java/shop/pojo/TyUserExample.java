@@ -375,63 +375,63 @@ public class TyUserExample {
             return (Criteria) this;
         }
 
-        public Criteria andCreateIsNull() {
-            addCriterion("create is null");
+        public Criteria andCreatedIsNull() {
+            addCriterion("created is null");
             return (Criteria) this;
         }
 
-        public Criteria andCreateIsNotNull() {
-            addCriterion("create is not null");
+        public Criteria andCreatedIsNotNull() {
+            addCriterion("created is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCreateEqualTo(Date value) {
-            addCriterion("create =", value, "create");
+        public Criteria andCreatedEqualTo(Date value) {
+            addCriterion("created =", value, "created");
             return (Criteria) this;
         }
 
-        public Criteria andCreateNotEqualTo(Date value) {
-            addCriterion("create <>", value, "create");
+        public Criteria andCreatedNotEqualTo(Date value) {
+            addCriterion("created <>", value, "created");
             return (Criteria) this;
         }
 
-        public Criteria andCreateGreaterThan(Date value) {
-            addCriterion("create >", value, "create");
+        public Criteria andCreatedGreaterThan(Date value) {
+            addCriterion("created >", value, "created");
             return (Criteria) this;
         }
 
-        public Criteria andCreateGreaterThanOrEqualTo(Date value) {
-            addCriterion("create >=", value, "create");
+        public Criteria andCreatedGreaterThanOrEqualTo(Date value) {
+            addCriterion("created >=", value, "created");
             return (Criteria) this;
         }
 
-        public Criteria andCreateLessThan(Date value) {
-            addCriterion("create <", value, "create");
+        public Criteria andCreatedLessThan(Date value) {
+            addCriterion("created <", value, "created");
             return (Criteria) this;
         }
 
-        public Criteria andCreateLessThanOrEqualTo(Date value) {
-            addCriterion("create <=", value, "create");
+        public Criteria andCreatedLessThanOrEqualTo(Date value) {
+            addCriterion("created <=", value, "created");
             return (Criteria) this;
         }
 
-        public Criteria andCreateIn(List<Date> values) {
-            addCriterion("create in", values, "create");
+        public Criteria andCreatedIn(List<Date> values) {
+            addCriterion("created in", values, "created");
             return (Criteria) this;
         }
 
-        public Criteria andCreateNotIn(List<Date> values) {
-            addCriterion("create not in", values, "create");
+        public Criteria andCreatedNotIn(List<Date> values) {
+            addCriterion("created not in", values, "created");
             return (Criteria) this;
         }
 
-        public Criteria andCreateBetween(Date value1, Date value2) {
-            addCriterion("create between", value1, value2, "create");
+        public Criteria andCreatedBetween(Date value1, Date value2) {
+            addCriterion("created between", value1, value2, "created");
             return (Criteria) this;
         }
 
-        public Criteria andCreateNotBetween(Date value1, Date value2) {
-            addCriterion("create not between", value1, value2, "create");
+        public Criteria andCreatedNotBetween(Date value1, Date value2) {
+            addCriterion("created not between", value1, value2, "created");
             return (Criteria) this;
         }
     }

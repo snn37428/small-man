@@ -43,7 +43,7 @@
 
 
 	<root>
-		<priority value="info" />
+		<priority value="debug" />
 		<appender-ref ref="console_appender" />
 		<appender-ref ref="filelog_daily" />
 		<appender-ref ref="filelog_appender" />

@@ -9,6 +9,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import shop.pojo.Auc;
 import shop.service.AddressService;
 import shop.serviceImpl.AddressServiceImpl;
+import shop.serviceImpl.LoginServiceImpl;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -22,6 +23,9 @@ public class AddressServiceImplTest {
     @Resource(name = "AddressServiceImpl")
     private AddressService addressService;
 
+    @Resource(name = "LoginServiceImpl")
+   private LoginServiceImpl loginServiceImpl;
+
     @Test
     public void tset(){
 
@@ -29,11 +33,15 @@ public class AddressServiceImplTest {
         logger.info("1111111111111111111111111");
         logger.debug("22222222222");
 
-//        addressService.insertAddress();
+//     addressService.insertAddress();
 
-        Auc auc = new Auc();
-        auc.setOpendId("0");
-        Map sef = addressService.detail(auc);
+//        Auc auc = new Auc();
+//        auc.setOpendId("0");
+//        Map sef = addressService.detail(auc);
+
+
+
+        Map se = loginServiceImpl.getSession("071pppZG16qS270A9x0H15rJZG1pppZ6");
 
     }
 

@@ -10,7 +10,7 @@ public enum ResEnum {
     REQ_PARAM_ERROR(2, "请求参数有误"),
     RES_RESULT_NULL(9, "接口返回值为空"),
     INTERFACE_ERROR(3, "接口异常"),
-    RES_PARAM_ERROR(-1,"返回参数有误");
+    RES_PARAM_ERROR(-1,"返回数据有误");
 
     private int key;
 

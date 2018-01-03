@@ -63,19 +63,16 @@ public class LoginServiceImpl implements LoginService {
             return false;
         }
         //token时间计算
-        if (StringUtils.isNotBlank(token) && new Date().getTime() - tyUser.getCreate().getTime() < timeOut) {
+        if (StringUtils.isNotBlank(token) && new Date().getTime() - tyUser.getCreated().getTime() < timeOut) {
             log.info("数据库，验证token成功" + token);
             return true;
         }
         return false;
     }
 
-    private Map getSession(String code) {
+    public Map getSession(String code) {
 
-        String params = new StringBuilder().append("appid=").append(WXLoginFinal.getWxAppid().trim()).append("&secret=").append(WXLoginFinal.getwxSecret().trim()).append("&js_code=").append(code.trim()).
-                append(WXLoginFinal.getGrant_type().trim()).toString();
-
-        // String params = "appid=" + WXLoginFinal.getWxAppid().trim() + "&secret=" + WXLoginFinal.getwxSecret().trim() + "&js_code=" + code.trim() + "&grant_type=" + WXLoginFinal.getGrant_type().trim();
+        String params = "appid=" + WXLoginFinal.getWxAppid().trim() + "&secret=" + WXLoginFinal.getwxSecret().trim() + "&js_code=" + code.trim() + "&grant_type=" + WXLoginFinal.getGrant_type().trim();
         //发送请求获取openId
         String data = HttpRequest.sendPost(WXLoginFinal.getUrl().trim(), params);
 
@@ -84,12 +81,19 @@ public class LoginServiceImpl implements LoginService {
             return ResMap.getFailedMap(ResEnum.RES_RESULT_NULL.getKey(), ResEnum.RES_RESULT_NULL.getValue());
         }
 
-        JSONObject jsonData = JSONObject.parseObject(data);
-        String openId = jsonData.get("openid").toString().trim();
-        String sessionKey = jsonData.get("session_key").toString().trim();
+        String openId = "";
+        String sessionKey = "";
+        try {
+            JSONObject jsonData = JSONObject.parseObject(data);
+            openId = jsonData.get("openid").toString().trim();
+            sessionKey = jsonData.get("session_key").toString().trim();
 
-        if (StringUtils.isBlank(openId) || StringUtils.isBlank(sessionKey)) {
-            return ResMap.getFailedMap(ResEnum.RES_RESULT_NULL.getKey(), ResEnum.RES_RESULT_NULL.getValue());
+            if (StringUtils.isBlank(openId) || StringUtils.isBlank(sessionKey)) {
+                return ResMap.getFailedMap(ResEnum.RES_RESULT_NULL.getKey(), ResEnum.RES_RESULT_NULL.getValue());
+            }
+        } catch (Exception e) {
+//            return ResMap.getFailedMap(ResEnum.RES_PARAM_ERROR.getKey(), ResEnum.RES_PARAM_ERROR.getValue());
+
         }
         log.info("获取微信openId成功, code:" + code);
         StringBuffer stringBuffer = new StringBuffer();
@@ -98,14 +102,24 @@ public class LoginServiceImpl implements LoginService {
         Map resMap = new HashMap();
         resMap.put("token", token);
         resMap.put("code", 0);
-        redisUtils.set(token, token, WXLoginFinal.getTimeOut());
-        log.info("获取微信openId成功后,设置缓存成功,code:" + code + "token:" + token);
+        try {
+            redisUtils.set(token, token, WXLoginFinal.getTimeOut());
+            log.info("获取微信openId成功后,设置缓存成功,code:" + code + ",token:" + token);
+        } catch (Exception e) {
+            log.info("获取微信openId成功后,设置缓存失败,code:" + code + ",token:" + token, e);
+        }
+
         TyUser tyUser = new TyUser();
         tyUser.setToken(token);
         tyUser.setOpenid(openId);
         tyUser.setSessionkey(sessionKey);
-        tyUserMapper.insert(tyUser);
-        log.info("获取微信openId成功后,设置数据库成功,code:" + code + "token:" + token);
+        tyUser.setCreated(new Date());
+        try {
+            tyUserMapper.insert(tyUser);
+            log.info("获取微信openId成功后,设置数据库成功,code:" + code + ",token:" + token);
+        } catch (Exception e) {
+            log.info("获取微信openId成功后,设置数据库失败,code:" + code + ",token:" + token, e);
+        }
         return ResMap.getSuccessMap(resMap);
     }
 
