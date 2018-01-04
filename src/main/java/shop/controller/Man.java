@@ -15,7 +15,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/man/redis")
-public class ManController {
+public class Man {
 
     @Resource(name = "ManServiceImpl")
     private ManService manService;

@@ -15,7 +15,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/index")
-public class IndexController {
+public class Index {
 
     @Resource(name = "IndexServiceImpl")
     private IndexService indexService;

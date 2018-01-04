@@ -14,7 +14,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/order")
-public class OrderController {
+public class Order {
 
     @Resource(name = "OrderServiceImpl")
     private OrderService orderService;

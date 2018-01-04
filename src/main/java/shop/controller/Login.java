@@ -14,7 +14,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/login")
-public class LoginController {
+public class Login {
 
     @Resource(name = "LoginServiceImpl")
     private LoginService loginService;

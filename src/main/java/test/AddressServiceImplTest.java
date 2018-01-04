@@ -41,7 +41,7 @@ public class AddressServiceImplTest {
 
 
 
-        Map se = loginServiceImpl.getSession("071pppZG16qS270A9x0H15rJZG1pppZ6");
+//        Map se = loginServiceImpl.getSession("071pppZG16qS270A9x0H15rJZG1pppZ6");
 
     }
 
