@@ -1,5 +1,7 @@
 package shop.service;
 
+import shop.pojo.Auc;
+
 import java.util.Map;
 
 /**
@@ -9,10 +11,10 @@ public interface LoginService {
 
     /**
      * 获取微信openId
-     * @param code
+     * @param auc
      * @return
      */
-    Map in(String code);
+    Map in(Auc auc);
 
     /**
      * 验证token
@@ -29,4 +31,11 @@ public interface LoginService {
      * @return
      */
     Map checkSession(String encryptedData, String sessionKey, String vi);
+
+    /**
+     * 验证前台传值，token
+     * @param auc
+     * @return
+     */
+    Map checkOnlineToken(Auc auc);
 }

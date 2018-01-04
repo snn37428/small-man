@@ -5,6 +5,7 @@ public class Auc {
     private String id;
     private String opendId;
     private String token;
+    private String code;
 
     public String getId() {
         return id;
@@ -28,5 +29,13 @@ public class Auc {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 }

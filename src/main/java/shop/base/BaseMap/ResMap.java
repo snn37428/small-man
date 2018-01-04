@@ -27,20 +27,6 @@ public class ResMap {
         return map;
     }
 
-    /**
-     * 返回成功数据
-     *
-     * @param data 返回的data数据
-     * @return
-     */
-    public static <T> Map getSuccessMap(T data) {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("code", ResEnum.ON_ERROR.getKey());
-        map.put("msg", ResEnum.ON_ERROR.getValue());
-        map.put("success", true);
-        map.put("data", data);
-        return map;
-    }
 
     /**
      * 返回失败数据
@@ -52,15 +38,6 @@ public class ResMap {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("code", ResEnum.FAILEd.getValue());
         map.put("msg", ResEnum.FAILEd.getValue());
-        map.put("success", true);
-        map.put("data", data);
-        return map;
-    }
-
-
-
-    public static Map<String, Object> getMap(Object data) {
-        Map<String, Object> map = new HashMap<String, Object>();
         map.put("success", true);
         map.put("data", data);
         return map;
@@ -98,7 +75,20 @@ public class ResMap {
         return map;
     }
 
-
+    /**
+     * 返回成功数据
+     *
+     * @param data 返回的data数据
+     * @return
+     */
+    public static <T> Map getSuccessMap(T data) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("code", ResEnum.SUCCESS.getKey());
+        map.put("msg", ResEnum.SUCCESS.getValue());
+        map.put("success", true);
+        map.put("data", data);
+        return map;
+    }
 
     /**
      * 返回成功，数据为空Map
@@ -111,5 +101,44 @@ public class ResMap {
         return map;
     }
 
+
+    /**
+     * 构建返回体Map，set数据
+     * @param data
+     * @return
+     */
+    public static Map<String, Object> getMap(Object data) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("success", true);
+        map.put("data", data);
+        return map;
+    }
+
+
+    /**
+     * 返回成功，验证code失败，错误（code != 0）
+     *
+     * @return
+     */
+    public static Map<String, Object> errCodeMap(String msg) {
+
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("code", "1");
+        map.put("msg", msg);
+        return getMap(map);
+    }
+
+    /**
+     * 返回成功，验证code成功，错误（code == 0）
+     *
+     * @param
+     * @return
+     */
+    public static Map rightCodeMap(String msg) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("code", ResEnum.SUCCESS.getKey());
+        map.put("msg", msg);
+        return getMap(map);
+    }
 
 }

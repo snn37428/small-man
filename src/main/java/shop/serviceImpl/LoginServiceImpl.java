@@ -1,5 +1,6 @@
 package shop.serviceImpl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
@@ -10,6 +11,7 @@ import shop.base.BaseMap.ResMap;
 import shop.base.EnumCode.ResEnum;
 import shop.base.wxfinal.WXLoginFinal;
 import shop.dao.TyUserMapper;
+import shop.pojo.Auc;
 import shop.pojo.TyUser;
 import shop.service.LoginService;
 import shop.utils.AesCbcUtil;
@@ -39,10 +41,14 @@ public class LoginServiceImpl implements LoginService {
     private RedisUtils redisUtils;
 
 
-    public Map in(String code) {
+    public Map in(Auc auc) {
 
+        if (auc == null || StringUtils.isBlank(auc.getToken())) {
+            log.info("login.in,参数为空, auc: " + JSON.toJSONString(auc));
+            return ResMap.errCodeMap("参数为空");
+        }
         try {
-            return this.getSession(code);
+            return this.getSession(auc.getCode());
         } catch (Exception e) {
             log.error("获取微信openId失败", e);
             return ResMap.getFailedMap(ResEnum.INTERFACE_ERROR.getKey(), ResEnum.INTERFACE_ERROR.getValue());
@@ -92,8 +98,7 @@ public class LoginServiceImpl implements LoginService {
                 return ResMap.getFailedMap(ResEnum.RES_RESULT_NULL.getKey(), ResEnum.RES_RESULT_NULL.getValue());
             }
         } catch (Exception e) {
-//            return ResMap.getFailedMap(ResEnum.RES_PARAM_ERROR.getKey(), ResEnum.RES_PARAM_ERROR.getValue());
-
+            return ResMap.getFailedMap(ResEnum.RES_PARAM_ERROR.getKey(), ResEnum.RES_PARAM_ERROR.getValue());
         }
         log.info("获取微信openId成功, code:" + code);
         StringBuffer stringBuffer = new StringBuffer();
@@ -118,7 +123,7 @@ public class LoginServiceImpl implements LoginService {
             tyUserMapper.insert(tyUser);
             log.info("获取微信openId成功后,设置数据库成功,code:" + code + ",token:" + token);
         } catch (Exception e) {
-            log.info("获取微信openId成功后,设置数据库失败,code:" + code + ",token:" + token, e);
+            log.error("获取微信openId成功后,设置数据库失败,code:" + code + ",token:" + token, e);
         }
         return ResMap.getSuccessMap(resMap);
     }
@@ -134,5 +139,22 @@ public class LoginServiceImpl implements LoginService {
         new AesCbcUtil(session_key).decrypt(session_key, "1");
 
         return null;
+    }
+
+    @Override
+    public Map checkOnlineToken(Auc auc) {
+
+        if (auc == null || StringUtils.isBlank(auc.getToken())) {
+            log.info("token验证参数为空, auc: " + JSON.toJSONString(auc));
+            return ResMap.errCodeMap("参数为空");
+        }
+
+        if (checkToken(auc.getToken())) {
+            log.info("token验证通过, token: " + auc.getToken());
+            return ResMap.rightCodeMap("token验证通过");
+        } else {
+            log.info("token验证未通过, token: " + auc.getToken());
+            return ResMap.errCodeMap("token验证未通过");
+        }
     }
 }

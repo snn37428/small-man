@@ -1,14 +1,10 @@
 package shop.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import shop.base.EnumCode.ResEnum;
+import shop.pojo.Auc;
 import shop.service.LoginService;
-import shop.base.BaseMap.ResMap;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -24,19 +20,16 @@ public class LoginController {
     private LoginService loginService;
 
     @RequestMapping(value = "in")
-    @ResponseBody
-    public Map login(@RequestParam String code) {
+    public @ResponseBody
+    Map login(Auc auc) {
         System.out.println("---");
-        if (StringUtils.isEmpty(code)) {
-            return ResMap.getFailedMap(ResEnum.REQ_PARAM_ERROR.getKey(), ResEnum.REQ_PARAM_ERROR.getValue());
-        }
-        return loginService.in(code);
+        return loginService.in(auc);
     }
 
-//    @RequestMapping(value = "token")
-//    @ResponseBody
-//    public Map checkToken(@RequestParam String token) {
-//        return loginService.checkToken(token);
-//    }
+    @RequestMapping(value = "token")
+    public @ResponseBody
+    Map checkToken(Auc auc) {
+        return loginService.checkOnlineToken(auc);
+    }
 
 }
