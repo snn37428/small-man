@@ -104,6 +104,7 @@ public class ResMap {
 
     /**
      * 构建返回体Map，set数据
+     *
      * @param data
      * @return
      */
@@ -121,7 +122,6 @@ public class ResMap {
      * @return
      */
     public static Map<String, Object> errCodeMap(String msg) {
-
         Map<String, String> map = new HashMap<String, String>();
         map.put("code", "1");
         map.put("msg", msg);
@@ -141,4 +141,31 @@ public class ResMap {
         return getMap(map);
     }
 
+    /**
+     * 返回成功，data为空（空数据Map）
+     *
+     * @param
+     * @return
+     */
+    public static Map nullDataMap(String msg) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("code", ResEnum.SUCCESS.getKey());
+        map.put("msg", msg);
+        map.put("data", null);
+        return getMap(map);
+    }
+
+    /**
+     * 返回成功，data为空（空数据Map）
+     *
+     * @param
+     * @return
+     */
+    public static Map successDataMap(Object data, String msg) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("code", ResEnum.SUCCESS.getKey());
+        map.put("msg", msg);
+        map.put("data", data);
+        return getMap(map);
+    }
 }

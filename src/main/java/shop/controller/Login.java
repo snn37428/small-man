@@ -13,7 +13,7 @@ import java.util.Map;
  * Created by songningning1 on 2017/9/7.
  */
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/user")
 public class Login {
 
     @Resource(name = "LoginServiceImpl")
@@ -26,7 +26,7 @@ public class Login {
         return loginService.in(auc);
     }
 
-    @RequestMapping(value = "token")
+    @RequestMapping(value = "check-token")
     public @ResponseBody
     Map checkToken(Auc auc) {
         return loginService.checkOnlineToken(auc);

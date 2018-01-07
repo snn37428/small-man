@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class ProductVo implements Serializable{
 
     private static final long serialVersionUID = 7169105244580471743L;
-    private int id;
+    private Long id;
     private int userId;
     private int type;
     private int sort;
@@ -18,12 +18,14 @@ public class ProductVo implements Serializable{
     private String nameDesc;
     private String icon;
     private String level;
+    private String minPrice;
+    private String pic;
 
-    public int getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -97,5 +99,31 @@ public class ProductVo implements Serializable{
 
     public void setLevel(String level) {
         this.level = level;
+    }
+
+    public String getMinPrice() {
+        return minPrice;
+    }
+
+    public void setMinPrice(String minPrice) {
+        this.minPrice = minPrice;
+    }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
+    public ProductVo() {
+    }
+
+    public ProductVo(Long id, String name, String minPrice, String pic) {
+        this.id = id;
+        this.name = name;
+        this.minPrice = minPrice;
+        this.pic = pic;
     }
 }

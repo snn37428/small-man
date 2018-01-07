@@ -8,6 +8,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import shop.pojo.Auc;
 import shop.service.AddressService;
+import shop.service.GoodsService;
 import shop.serviceImpl.AddressServiceImpl;
 import shop.serviceImpl.LoginServiceImpl;
 
@@ -24,7 +25,10 @@ public class AddressServiceImplTest {
     private AddressService addressService;
 
     @Resource(name = "LoginServiceImpl")
-   private LoginServiceImpl loginServiceImpl;
+    private LoginServiceImpl loginServiceImpl;
+
+    @Resource(name = "GoodsSerivceImpl")
+    private GoodsService goodsService;
 
     @Test
     public void tset(){
@@ -42,6 +46,8 @@ public class AddressServiceImplTest {
 
 
 //        Map se = loginServiceImpl.getSession("071pppZG16qS270A9x0H15rJZG1pppZ6");
+
+          goodsService.productList(5l);
 
     }
 

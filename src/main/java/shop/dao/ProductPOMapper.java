@@ -15,6 +15,8 @@ public interface ProductPOMapper {
 
     ProductPO selectByPrimaryKey(Long id);
 
+    List<ProductPO> selectByCategoryId(Long id);
+
     int updateByPrimaryKeySelective(ProductPO record);
 
     int updateByPrimaryKeyWithBLOBs(ProductPO record);

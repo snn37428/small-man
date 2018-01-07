@@ -41,9 +41,9 @@ public class AddressServiceImpl implements AddressService {
         }
 
         if (tSellerAddrMapper.insert(sellerAddr) > 0) {
-            return ResMap.getSuccessMap("数据库插入成功");
+            return ResMap.rightCodeMap("数据库插入成功");
         } else {
-            return ResMap.getFailedMap("数据库插入失败");
+            return ResMap.errCodeMap("数据库插入失败");
         }
     }
 
