@@ -1,5 +1,7 @@
 package shop.service;
 
+import shop.vtp.PayOrderVtp;
+
 import java.util.Map;
 
 /**
@@ -8,13 +10,15 @@ import java.util.Map;
 public interface OrderService {
     /**
      * 创建订单
-     * @param str
+     *
+     * @param payOrderVtp
      * @return
      */
-    Map create(String str);
+    Map create(PayOrderVtp payOrderVtp);
 
     /**
      * 根据用户名token，查询订单
+     *
      * @param token
      * @return
      */

@@ -11,6 +11,7 @@ import shop.pojo.OrderPO;
 import shop.service.OrderService;
 import shop.utils.GenerateNum;
 import shop.utils.RedisUtils;
+import shop.vtp.PayOrderVtp;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
@@ -30,7 +31,7 @@ public class OrderServiceImpl implements OrderService {
     @Resource(name = "OrderItemPOMapper")
     private OrderItemPOMapper orderItemPOMapper;
 
-    public Map create(String str) {
+    public Map create(PayOrderVtp payOrderVtp) {
         OrderPO orderPO = new OrderPO();
         orderPO.setSellerId(1L);
         orderPO.setBuyerId("4545");
@@ -46,7 +47,7 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
-    public void insertOrderTransactional(OrderPO op, OrderItemPO itemPO){
+    public void insertOrderTransactional(OrderPO op, OrderItemPO itemPO) {
         orderPOMapper.insert(op);
     }
 

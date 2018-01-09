@@ -18,6 +18,10 @@ public class WXLoginFinal {
 
     private static final int timeOut = 3 * getDay();
 
+    private static final String mchId = "";
+
+    private static final String wxUnityOrderUrl = "https://api.mch.weixin.qq.com/pay/unifiedorder";
+
     public static String getwxSecret() {
         return wxSecret;
     }
@@ -44,5 +48,16 @@ public class WXLoginFinal {
 
     public static int getTimeOut() {
         return timeOut;
+    }
+
+    public static String getMchId() {
+        return mchId;
+    }
+
+    public static String getWxUnityOrderUrl() {
+        return wxUnityOrderUrl;
+    }
+
+    public WXLoginFinal() {
     }
 }

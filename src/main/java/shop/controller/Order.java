@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shop.service.OrderService;
+import shop.vtp.PayOrderVtp;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -20,9 +21,8 @@ public class Order {
     private OrderService orderService;
 
     @RequestMapping(value = "create")
-    @ResponseBody
-    public Map create() {
-        orderService.create("str");
+    public  @ResponseBody Map create(PayOrderVtp payOrderVtp) {
+        orderService.create(payOrderVtp);
         return null;
     }
 }
