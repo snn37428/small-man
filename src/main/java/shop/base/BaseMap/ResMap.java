@@ -156,7 +156,7 @@ public class ResMap {
     }
 
     /**
-     * 返回成功，data为空（空数据Map）
+     * 返回成功，data成功（正确数据Map）
      *
      * @param
      * @return

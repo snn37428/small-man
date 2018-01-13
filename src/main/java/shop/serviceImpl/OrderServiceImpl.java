@@ -1,9 +1,13 @@
 package shop.serviceImpl;
 
+import com.alibaba.fastjson.JSON;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import shop.base.BaseMap.ResMap;
 import shop.dao.OrderItemPOMapper;
 import shop.dao.OrderPOMapper;
 import shop.pojo.OrderItemPO;
@@ -23,6 +27,8 @@ import java.util.Map;
 @Service("OrderServiceImpl")
 public class OrderServiceImpl implements OrderService {
 
+    private static final Logger logger = Logger.getLogger(OrderServiceImpl.class);
+
     @Autowired
     private RedisUtils redisUtils;
     @Resource(name = "orderPOMapper")
@@ -32,6 +38,15 @@ public class OrderServiceImpl implements OrderService {
     private OrderItemPOMapper orderItemPOMapper;
 
     public Map create(PayOrderVtp payOrderVtp) {
+
+        if (payOrderVtp == null || StringUtils.isBlank(payOrderVtp.getOrderId()) || StringUtils.isBlank(payOrderVtp.getTotalFee()) || StringUtils.isBlank(payOrderVtp.getToken())) {
+            logger.info("增加地址，参数为空，param:" + JSON.toJSONString(payOrderVtp));
+            return ResMap.getNullParamMap();
+        }
+
+
+
+
         OrderPO orderPO = new OrderPO();
         orderPO.setSellerId(1L);
         orderPO.setBuyerId("4545");
