@@ -47,7 +47,7 @@ public class LoginServiceImpl implements LoginService {
 
     public Map in(Auc auc) {
 
-        if (auc == null || StringUtils.isBlank(auc.getToken())) {
+        if (auc == null || StringUtils.isBlank(auc.getCode())) {
             log.info("login.in,参数为空, auc: " + JSON.toJSONString(auc));
             return ResMap.errCodeMap("参数为空");
         }
@@ -89,7 +89,7 @@ public class LoginServiceImpl implements LoginService {
         resMap.put("token", token);
         resMap.put("code", 0);
         try {
-            redisUtils.set(token, token, WXLoginFinal.getTimeOut());
+            //redisUtils.set(token, token, WXLoginFinal.getTimeOut());
             log.info("获取微信openId成功后,设置缓存成功,code:" + code + ",token:" + token);
         } catch (Exception e) {
             log.info("获取微信openId成功后,设置缓存失败,code:" + code + ",token:" + token, e);
@@ -142,10 +142,11 @@ public class LoginServiceImpl implements LoginService {
     public Boolean checkToken(String token) {
 
         //缓存，token验证
-        if (StringUtils.isNotBlank(redisUtils.get(token))) {
+      /*  if (StringUtils.isNotBlank(redisUtils.get(token))) {
             log.info("缓存，获取微信openId成功！token:" + token);
             return true;
         }
+      */
         //数据库，token验证
         TyUser tyUser = tyUserMapper.selectByToken(token);
         if (tyUser == null || StringUtils.isBlank(tyUser.getSessionkey())) {
@@ -159,5 +160,4 @@ public class LoginServiceImpl implements LoginService {
         }
         return false;
     }
-
 }

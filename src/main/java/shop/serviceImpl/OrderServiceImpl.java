@@ -7,18 +7,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 import shop.base.BaseMap.ResMap;
 import shop.dao.OrderItemPOMapper;
 import shop.dao.OrderPOMapper;
+import shop.dao.ProductPOMapper;
 import shop.pojo.OrderItemPO;
 import shop.pojo.OrderPO;
+import shop.pojo.ProductPO;
 import shop.service.OrderService;
 import shop.utils.GenerateNum;
 import shop.utils.RedisUtils;
+import shop.vtp.GoodVtp;
+import shop.vtp.OrderVtp;
 import shop.vtp.PayOrderVtp;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,31 +39,40 @@ public class OrderServiceImpl implements OrderService {
     private RedisUtils redisUtils;
     @Resource(name = "orderPOMapper")
     private OrderPOMapper orderPOMapper;
-
+    //写订单数据库
     @Resource(name = "OrderItemPOMapper")
     private OrderItemPOMapper orderItemPOMapper;
+    //验证token
+    @Resource(name = "LoginServiceImpl")
+    private LoginServiceImpl loginServiceImpl;
+    //读商品库
 
-    public Map create(PayOrderVtp payOrderVtp) {
+    @Resource(name = "productPOMapper")
+    private ProductPOMapper productPOMapper;
 
-        if (payOrderVtp == null || StringUtils.isBlank(payOrderVtp.getOrderId()) || StringUtils.isBlank(payOrderVtp.getTotalFee()) || StringUtils.isBlank(payOrderVtp.getToken())) {
-            logger.info("增加地址，参数为空，param:" + JSON.toJSONString(payOrderVtp));
+    public Map create(OrderVtp orderVtp) {
+
+        if (orderVtp == null || StringUtils.isBlank(orderVtp.getToken()) || StringUtils.isBlank(orderVtp.getGoodsJsonStr())) {
+            logger.info("创建订单，参数为空，param:" + JSON.toJSONString(orderVtp));
             return ResMap.getNullParamMap();
         }
+        Boolean isToken = loginServiceImpl.checkToken(orderVtp.getToken());
+        if (!isToken) {
+            logger.info("创建订单，token验证未通过");
+        }
+        List<GoodVtp> goodVtps = JSON.parseArray(orderVtp.getGoodsJsonStr(), GoodVtp.class);
+        if (CollectionUtils.isEmpty(goodVtps)) {
+            logger.info("创建订单，商品信息为空");
+            return ResMap.errCodeMap("商品信息为空");
+        }
+        for (GoodVtp goodVtp : goodVtps) {
+            if (StringUtils.isBlank(goodVtp.getGoodsId())) {
+                logger.info("创建订单，商品Id为空");
+            }
+            this.buildOrder(goodVtp);
+        }
 
-
-
-
-        OrderPO orderPO = new OrderPO();
-        orderPO.setSellerId(1L);
-        orderPO.setBuyerId("4545");
-        orderPO.setTotalPrice(new BigDecimal(20));
-        orderPO.setPaymentStatus(2);
-        orderPO.setOrderStatus(1);
-        orderPO.setShippingStatus(0);
-        orderPO.setOrderSn(GenerateNum.getInstance().GenerateOrder());
-        orderPO.setReceiverId("se");
-        orderPO.setActive(true);
-        this.insertOrderTransactional(orderPO, new OrderItemPO());
+//
         return null;
     }
 
@@ -66,7 +81,29 @@ public class OrderServiceImpl implements OrderService {
         orderPOMapper.insert(op);
     }
 
-    public Map getOrderByToken(int token) {
-        return null;
+
+    private OrderPO buildOrder(GoodVtp goodVtp) {
+
+        ProductPO productPO = null;
+        try {
+            productPO = productPOMapper.selectByPrimaryKey(Long.valueOf(goodVtp.getGoodsId()));
+        } catch (NumberFormatException e) {
+            logger.info("创建订单，读数据商品信息异常，productPO:" + goodVtp.getGoodsId());
+        }
+        if (productPO == null) {
+            logger.info("创建订单，读数据商品信息为空，productPO:" + goodVtp.getGoodsId());
+        }
+        OrderPO orderPO = new OrderPO();
+        orderPO.setBuyerId();
+        orderPO.set
+        orderPO.setTotalPrice(new BigDecimal(20));
+        orderPO.setPaymentStatus(2);
+        orderPO.setOrderStatus(1);
+        orderPO.setShippingStatus(0);
+        orderPO.setOrderSn(GenerateNum.getInstance().GenerateOrder());
+        orderPO.setReceiverId("se");
+        orderPO.setActive(true);
+        this.insertOrderTransactional(orderPO, new OrderItemPO());
+        return orderPO;
     }
 }

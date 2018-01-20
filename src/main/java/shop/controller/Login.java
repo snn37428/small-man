@@ -19,9 +19,8 @@ public class Login {
     @Resource(name = "LoginServiceImpl")
     private LoginService loginService;
 
-    @RequestMapping(value = "in")
-    public @ResponseBody
-    Map login(Auc auc) {
+    @RequestMapping(value = "wxapp/login")
+    public @ResponseBody Map login(Auc auc) {
         System.out.println("---");
         return loginService.in(auc);
     }

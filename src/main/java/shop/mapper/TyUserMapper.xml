@@ -89,7 +89,7 @@
     from ty_user
     where id = #{id,jdbcType=INTEGER}
   </select>
-  <select id="selectByToken" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  <select id="selectByToken" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select
     <include refid="Base_Column_List" />
     from ty_user

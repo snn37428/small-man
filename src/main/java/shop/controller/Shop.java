@@ -10,9 +10,9 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("shop")
-public class Goods {
+public class Shop {
 
-    private static final Logger logger = Logger.getLogger(Goods.class);
+    private static final Logger logger = Logger.getLogger(Shop.class);
 
     @RequestMapping(value = "goods/list")
     public @ResponseBody Map list(String categoryId) {
