@@ -9,21 +9,24 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import shop.base.BaseMap.ResMap;
-import shop.dao.OrderItemPOMapper;
+import shop.base.EnumCode.OrderStatusEnum;
+import shop.base.EnumCode.PaymentStatusEnum;
+import shop.base.EnumCode.ShippingStatusEnum;
 import shop.dao.OrderPOMapper;
 import shop.dao.ProductPOMapper;
-import shop.pojo.OrderItemPO;
+import shop.dao.TOrderItemMapper;
 import shop.pojo.OrderPO;
 import shop.pojo.ProductPO;
+import shop.pojo.TOrderItem;
 import shop.service.OrderService;
 import shop.utils.GenerateNum;
 import shop.utils.RedisUtils;
 import shop.vtp.GoodVtp;
 import shop.vtp.OrderVtp;
-import shop.vtp.PayOrderVtp;
 
 import javax.annotation.Resource;
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -39,16 +42,14 @@ public class OrderServiceImpl implements OrderService {
     private RedisUtils redisUtils;
     @Resource(name = "orderPOMapper")
     private OrderPOMapper orderPOMapper;
-    //写订单数据库
-    @Resource(name = "OrderItemPOMapper")
-    private OrderItemPOMapper orderItemPOMapper;
     //验证token
     @Resource(name = "LoginServiceImpl")
-    private LoginServiceImpl loginServiceImpl;
+    private LoginServiceImpl loginService;
     //读商品库
-
     @Resource(name = "productPOMapper")
     private ProductPOMapper productPOMapper;
+    @Resource(name = "tOrderItemMapper")
+    private TOrderItemMapper tOrderItemMapper;
 
     public Map create(OrderVtp orderVtp) {
 
@@ -56,9 +57,10 @@ public class OrderServiceImpl implements OrderService {
             logger.info("创建订单，参数为空，param:" + JSON.toJSONString(orderVtp));
             return ResMap.getNullParamMap();
         }
-        Boolean isToken = loginServiceImpl.checkToken(orderVtp.getToken());
-        if (!isToken) {
+        String openId = loginService.getOpenIdByToken(orderVtp.getToken());
+        if (openId == null) {
             logger.info("创建订单，token验证未通过");
+            return ResMap.rightCodeMap("Token验证错误");
         }
         List<GoodVtp> goodVtps = JSON.parseArray(orderVtp.getGoodsJsonStr(), GoodVtp.class);
         if (CollectionUtils.isEmpty(goodVtps)) {
@@ -69,41 +71,89 @@ public class OrderServiceImpl implements OrderService {
             if (StringUtils.isBlank(goodVtp.getGoodsId())) {
                 logger.info("创建订单，商品Id为空");
             }
-            this.buildOrder(goodVtp);
+            TOrderItem tOrderItem = new TOrderItem();
+            OrderPO orderPO = new OrderPO();
+            if (this.buildOrderItem(tOrderItem, goodVtp)) {
+                if (this.buildOrder(orderPO, tOrderItem, goodVtp, openId)) {
+                    if (this.insertOrderItemTransactional(orderPO, tOrderItem)) {
+                        logger.info("创建订单，成功，orderId：" + orderPO.getOrderSn());
+                    }
+                }
+            }
         }
-
-//
         return null;
     }
 
-    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
-    public void insertOrderTransactional(OrderPO op, OrderItemPO itemPO) {
-        orderPOMapper.insert(op);
+    private boolean buildOrder(OrderPO orderPO, TOrderItem tOrderItem, GoodVtp goodVtp, String openId) {
+        boolean flag = false;
+        try {
+            orderPO.setBuyerId(openId);
+            orderPO.setOrderSn(GenerateNum.getInstance().GenerateOrder());
+            orderPO.setOrderStatus(OrderStatusEnum.NO_CONFIRM.getKey());
+            orderPO.setPaymentStatus(PaymentStatusEnum.NO_PAY.getKey());
+            orderPO.setShippingStatus(ShippingStatusEnum.NO_SEND.getKey());
+            orderPO.setReceiverId("");
+            orderPO.setUpdated(new Date());
+            flag = true;
+        } catch (Exception e) {
+            logger.info("创建订单，组装order入库参数，异常");
+        }
+        return flag;
     }
 
-
-    private OrderPO buildOrder(GoodVtp goodVtp) {
-
-        ProductPO productPO = null;
+    private boolean buildOrderItem(TOrderItem tOrderItem, GoodVtp goodVtp) {
+        boolean flag = false;
+        ProductPO product;
         try {
-            productPO = productPOMapper.selectByPrimaryKey(Long.valueOf(goodVtp.getGoodsId()));
+            product = productPOMapper.selectByPrimaryKey(Long.parseLong(goodVtp.getGoodsId()));
+            if (product == null) {
+                logger.info("创建订单，通过商品Id查询商品，为空,goodId:" + goodVtp.getGoodsId());
+                return flag;
+            }
+            tOrderItem.setActive(true);
+            tOrderItem.setSn(product.getSn());
+            tOrderItem.setProductId(Long.parseLong(goodVtp.getGoodsId()));
+            tOrderItem.setName(product.getName());
+            tOrderItem.setProductImg(product.getImage());
+            tOrderItem.setPrice(new BigDecimal(product.getPrice()));
+            tOrderItem.setQuantity(Integer.valueOf(goodVtp.getNumber()));
+            tOrderItem.setUpdated(new Date());
+            flag = true;
         } catch (NumberFormatException e) {
-            logger.info("创建订单，读数据商品信息异常，productPO:" + goodVtp.getGoodsId());
+            logger.info("创建订单，通过商品Id,查询商品，异常");
         }
-        if (productPO == null) {
-            logger.info("创建订单，读数据商品信息为空，productPO:" + goodVtp.getGoodsId());
-        }
-        OrderPO orderPO = new OrderPO();
-        orderPO.setBuyerId();
-        orderPO.set
-        orderPO.setTotalPrice(new BigDecimal(20));
-        orderPO.setPaymentStatus(2);
-        orderPO.setOrderStatus(1);
-        orderPO.setShippingStatus(0);
-        orderPO.setOrderSn(GenerateNum.getInstance().GenerateOrder());
-        orderPO.setReceiverId("se");
-        orderPO.setActive(true);
-        this.insertOrderTransactional(orderPO, new OrderItemPO());
-        return orderPO;
+        return flag;
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
+    public boolean insertOrderItemTransactional(OrderPO orderPO, TOrderItem itemPO) {
+        tOrderItemMapper.insert(itemPO);
+        orderPOMapper.insert(orderPO);
+        return true;
+    }
+
+    @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
+    public void insertOrderTransactional(OrderPO op, TOrderItem tOrderItem) {
+//        orderPOMapper.insert(op);
+//        tPOMapper.selectByPrimaryKey(Long.valueOf(goodVtp.getGoodsId()));
+//        productPO = produc(NumberFormatException e) {
+//            logger.info("创建订单，读数据商品信息异常，productPO:" + goodVtp.getGoodsId());
+//        }
+//        if (productPO == null) {
+//            logger.info("创建订单，读数据商品信息为空，productPO:" + goodVtp.getGoodsId());
+//        }
+//        OrderPO orderPO = new OrderPO();
+//        orderPO.setBuyerId();
+//        orderPO.set
+//        orderPO.setTotalPrice(new BigDecimal(20));
+//        orderPO.setPaymentStatus(2);
+//        orderPO.setOrderStatus(1);
+//        orderPO.setShippingStatus(0);
+//        orderPO.setOrderSn(GenerateNum.getInstance().GenerateOrder());
+//        orderPO.setReceiverId("se");
+//        orderPO.setActive(true);
+//        this.insertOrderTransactional(orderPO, new OrderItemPO());
+//        return orderPO;
+
     }
 }

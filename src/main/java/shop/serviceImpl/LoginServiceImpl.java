@@ -150,7 +150,7 @@ public class LoginServiceImpl implements LoginService {
         //数据库，token验证
         TyUser tyUser = tyUserMapper.selectByToken(token);
         if (tyUser == null || StringUtils.isBlank(tyUser.getSessionkey())) {
-            log.info("数据库，查询openId失败。token:" + token);
+            log.info("数据库，查询openId验证token，失败。token:" + token);
             return false;
         }
         //token时间计算
@@ -159,5 +159,25 @@ public class LoginServiceImpl implements LoginService {
             return true;
         }
         return false;
+    }
+
+    public String getOpenIdByToken(String token) {
+
+        //缓存，token验证
+      /*  if (StringUtils.isNotBlank(redisUtils.get(token))) {
+            log.info("缓存，获取微信openId成功！token:" + token);
+            return true;
+        }
+      */
+        TyUser tyUser = tyUserMapper.selectByToken(token);
+        if (tyUser == null || StringUtils.isBlank(tyUser.getOpenid())) {
+            log.info("数据库，查询openId失败。token:" + token);
+            return null;
+        }
+        if (StringUtils.isNotBlank(token) && new Date().getTime() - tyUser.getCreated().getTime() < timeOut) {
+            log.info("数据库，验证token成功" + token);
+            return tyUser.getOpenid();
+        }
+        return null;
     }
 }

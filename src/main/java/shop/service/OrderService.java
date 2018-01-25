@@ -17,11 +17,4 @@ public interface OrderService {
      */
     Map create(OrderVtp orderVtp);
 
-    /**
-     * 根据用户名token，查询订单
-     *
-     * @param token
-     * @return
-     */
-    Map getOrderByToken(int token);
 }

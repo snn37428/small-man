@@ -1,7 +1,7 @@
 package shop.vtp;
 
 /**
- * 下单信息携带商品信息
+ * 下单携带商品信息
  *
  * @author: songningning
  * @date: created in 2018/1/21 1:16

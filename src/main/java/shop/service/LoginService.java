@@ -38,4 +38,12 @@ public interface LoginService {
      * @return
      */
     Map checkOnlineToken(Auc auc);
+
+    /**
+     * 通过token获取用户opendId
+     * @param token
+     * @return
+     */
+    String getOpenIdByToken(String token);
+
 }
