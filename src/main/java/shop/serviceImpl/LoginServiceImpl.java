@@ -59,6 +59,11 @@ public class LoginServiceImpl implements LoginService {
         }
     }
 
+    /**
+     * 微信接口opendId
+     * @param code
+     * @return
+     */
     public Map getSessionByWX(String code) {
 
         String data = sessionRpc.getSessionWX(code);
@@ -68,33 +73,49 @@ public class LoginServiceImpl implements LoginService {
             return ResMap.getFailedMap(ResEnum.RES_RESULT_NULL.getKey(), ResEnum.RES_RESULT_NULL.getValue());
         }
 
-        String openId;
-        String sessionKey;
         try {
             JSONObject jsonData = JSONObject.parseObject(data);
-            openId = jsonData.get("openid").toString().trim();
-            sessionKey = jsonData.get("session_key").toString().trim();
-
-            if (StringUtils.isBlank(openId) || StringUtils.isBlank(sessionKey)) {
+            String openId = jsonData.get("openid").toString().trim();
+            if (StringUtils.isBlank(openId)) {
+                log.error("获取微信openId失败，微信接口返回openId数据为空, code:" + code);
                 return ResMap.getFailedMap(ResEnum.RES_RESULT_NULL.getKey(), ResEnum.RES_RESULT_NULL.getValue());
             }
+            String token = this.getTokenByOpenId(openId);
+            if(StringUtils.isBlank(token)) {
+                Map resMap = new HashMap();
+                resMap.put("token", token);
+                resMap.put("code", 0);
+                return ResMap.successDataMap(resMap, "获取token成功");
+            }
+            String sessionKey = jsonData.get("session_key").toString().trim();
+            if (StringUtils.isBlank(sessionKey)) {
+                log.error("获取微信openId失败，微信接口返回sessionKey数据为空, code:" + code);
+                return ResMap.getFailedMap(ResEnum.RES_RESULT_NULL.getKey(), ResEnum.RES_RESULT_NULL.getValue());
+            }
+            return insertSessionKey(openId, sessionKey, code);
         } catch (Exception e) {
+            log.error("获取微信openId失败，微信接口解析数据, code:" + code, e);
             return ResMap.getFailedMap(ResEnum.RES_PARAM_ERROR.getKey(), ResEnum.RES_PARAM_ERROR.getValue());
         }
+    }
+
+    /**
+     * 插入用户登录数据
+     * @param openId
+     * @param sessionKey
+     * @param code
+     * @return
+     */
+    private Map insertSessionKey(String openId, String sessionKey, String code) {
         log.info("获取微信openId成功, code:" + code);
         StringBuffer stringBuffer = new StringBuffer();
         String token = Md5Utils.string2MD5(stringBuffer.append(openId).append(sessionKey).toString());
-
-        Map resMap = new HashMap();
-        resMap.put("token", token);
-        resMap.put("code", 0);
-        try {
-            //redisUtils.set(token, token, WXLoginFinal.getTimeOut());
-            log.info("获取微信openId成功后,设置缓存成功,code:" + code + ",token:" + token);
-        } catch (Exception e) {
-            log.info("获取微信openId成功后,设置缓存失败,code:" + code + ",token:" + token, e);
-        }
-
+//        try {
+//            //redisUtils.set(token, token, WXLoginFinal.getTimeOut());
+//            log.info("获取微信openId成功后,设置缓存成功,code:" + code + ",token:" + token);
+//        } catch (Exception e) {
+//            log.info("获取微信openId成功后,设置缓存失败,code:" + code + ",token:" + token, e);
+//        }
         TyUser tyUser = new TyUser();
         tyUser.setToken(token);
         tyUser.setOpenid(openId);
@@ -102,25 +123,32 @@ public class LoginServiceImpl implements LoginService {
         tyUser.setCreated(new Date());
         try {
             tyUserMapper.insert(tyUser);
-            log.info("获取微信openId成功后,设置数据库成功,code:" + code + ",token:" + token);
+            log.info("获取微信openId成功后,插入数据库成功,code:" + code + ",token:" + token);
         } catch (Exception e) {
-            log.error("获取微信openId成功后,设置数据库失败,code:" + code + ",token:" + token, e);
+            log.error("获取微信openId成功后,插入数据库失败,code:" + code + ",token:" + token, e);
         }
-        return ResMap.getSuccessMap(resMap);
+        Map resMap = new HashMap();
+        resMap.put("token", token);
+        resMap.put("code", 0);
+        return ResMap.successDataMap(resMap, "获取token成功");
     }
 
-    public Map checkSession(String encryptedData, String sessionKey, String vi) {
-
-        String params = "appid=" + WXLoginFinal.getWxAppid().trim() + "&secret=" + WXLoginFinal.getwxSecret().trim() + "&js_code=" + sessionKey.trim() + "&grant_type=" + WXLoginFinal.getGrant_type().trim();
-        String data = HttpRequest.sendPost("https://api.weixin.qq.com/sns/jscode2session?", params);
-        JSONObject jsonData = JSONObject.parseObject(data);
-        String session_key = jsonData.get("session_key").toString();
-        String openid = jsonData.get("openid").toString();
-        String expires_in = jsonData.get("expires_in").toString();
-        new AesCbcUtil(session_key).decrypt(session_key, "1");
-
+    private String getTokenByOpenId(String openId) {
+        TyUser tyUser = tyUserMapper.selectByOpenId(openId);
+        if (tyUser == null || StringUtils.isBlank(tyUser.getOpenid())) {
+            log.info("数据库，查询token失败。openId:" + openId);
+            return null;
+        }
+        if (StringUtils.isNotBlank(openId) && new Date().getTime() - tyUser.getCreated().getTime() < timeOut) {
+            log.info("数据库，查询openId成功" + openId);
+            return tyUser.getToken();
+        }
         return null;
     }
+
+
+
+
 
     @Override
     public Map checkOnlineToken(Auc auc) {
@@ -178,6 +206,19 @@ public class LoginServiceImpl implements LoginService {
             log.info("数据库，验证token成功" + token);
             return tyUser.getOpenid();
         }
+        return null;
+    }
+
+    public Map checkSession(String encryptedData, String sessionKey, String vi) {
+
+        String params = "appid=" + WXLoginFinal.getWxAppid().trim() + "&secret=" + WXLoginFinal.getwxSecret().trim() + "&js_code=" + sessionKey.trim() + "&grant_type=" + WXLoginFinal.getGrant_type().trim();
+        String data = HttpRequest.sendPost("https://api.weixin.qq.com/sns/jscode2session?", params);
+        JSONObject jsonData = JSONObject.parseObject(data);
+        String session_key = jsonData.get("session_key").toString();
+        String openid = jsonData.get("openid").toString();
+        String expires_in = jsonData.get("expires_in").toString();
+        new AesCbcUtil(session_key).decrypt(session_key, "1");
+
         return null;
     }
 }

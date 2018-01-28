@@ -22,6 +22,7 @@ public class Login {
     @RequestMapping(value = "wxapp/login")
     public @ResponseBody Map login(Auc auc) {
         System.out.println("---");
+        Map de = loginService.in(auc);
         return loginService.in(auc);
     }
 
