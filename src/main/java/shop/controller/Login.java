@@ -3,10 +3,12 @@ package shop.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shop.base.BaseMap.ResJson;
 import shop.pojo.Auc;
 import shop.service.LoginService;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -20,16 +22,14 @@ public class Login {
     private LoginService loginService;
 
     @RequestMapping(value = "wxapp/login")
-    public @ResponseBody Map login(Auc auc) {
+    @ResponseBody
+    public Map login(Auc auc) {
         System.out.println("---");
-        Map de = loginService.in(auc);
         return loginService.in(auc);
     }
 
-    @RequestMapping(value = "check-token")
-    public @ResponseBody
-    Map checkToken(Auc auc) {
+    @RequestMapping(value = "check/token")
+    public @ResponseBody Map checkToken(Auc auc) {
         return loginService.checkOnlineToken(auc);
     }
-
 }

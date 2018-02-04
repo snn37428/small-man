@@ -7,6 +7,8 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import shop.base.BaseMap.ResJson;
 import shop.base.BaseMap.ResMap;
 import shop.base.EnumCode.ResEnum;
 import shop.base.wxfinal.WXLoginFinal;
@@ -23,6 +25,7 @@ import shop.utils.RedisUtils;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,7 +48,7 @@ public class LoginServiceImpl implements LoginService {
     private RedisUtils redisUtils;
 
 
-    public Map in(Auc auc) {
+    public Map<String, Object> in(Auc auc) {
 
         if (auc == null || StringUtils.isBlank(auc.getCode())) {
             log.info("login.in,参数为空, auc: " + JSON.toJSONString(auc));
@@ -65,14 +68,11 @@ public class LoginServiceImpl implements LoginService {
      * @return
      */
     public Map getSessionByWX(String code) {
-
         String data = sessionRpc.getSessionWX(code);
-
         if (StringUtils.isBlank(data)) {
             log.info("获取微信openId失败,返回data为空,code:" + code);
             return ResMap.getFailedMap(ResEnum.RES_RESULT_NULL.getKey(), ResEnum.RES_RESULT_NULL.getValue());
         }
-
         try {
             JSONObject jsonData = JSONObject.parseObject(data);
             String openId = jsonData.get("openid").toString().trim();
@@ -81,7 +81,7 @@ public class LoginServiceImpl implements LoginService {
                 return ResMap.getFailedMap(ResEnum.RES_RESULT_NULL.getKey(), ResEnum.RES_RESULT_NULL.getValue());
             }
             String token = this.getTokenByOpenId(openId);
-            if(StringUtils.isBlank(token)) {
+            if(StringUtils.isNotBlank(token)) {
                 Map resMap = new HashMap();
                 resMap.put("token", token);
                 resMap.put("code", 0);
@@ -134,14 +134,15 @@ public class LoginServiceImpl implements LoginService {
     }
 
     private String getTokenByOpenId(String openId) {
-        TyUser tyUser = tyUserMapper.selectByOpenId(openId);
-        if (tyUser == null || StringUtils.isBlank(tyUser.getOpenid())) {
+        List<TyUser> tyUser = tyUserMapper.selectByOpenId(openId);
+        if(CollectionUtils.isEmpty(tyUser)) {
             log.info("数据库，查询token失败。openId:" + openId);
             return null;
         }
-        if (StringUtils.isNotBlank(openId) && new Date().getTime() - tyUser.getCreated().getTime() < timeOut) {
+        TyUser ty = tyUser.get(tyUser.size() - 1);
+        if (StringUtils.isNotBlank(openId) && new Date().getTime() - ty.getCreated().getTime() < timeOut) {
             log.info("数据库，查询openId成功" + openId);
-            return tyUser.getToken();
+            return ty.getToken();
         }
         return null;
     }

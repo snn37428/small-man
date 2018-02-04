@@ -23,7 +23,7 @@ public interface TyUserMapper {
 
     TyUser selectByToken(String token);
 
-    TyUser selectByOpenId(String OpenId);
+    List<TyUser> selectByOpenId(String OpenId);
 
     int updateByExampleSelective(@Param("record") TyUser record, @Param("example") TyUserExample example);
 

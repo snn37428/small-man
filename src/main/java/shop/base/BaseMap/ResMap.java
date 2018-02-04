@@ -168,4 +168,5 @@ public class ResMap {
         map.put("data", data);
         return getMap(map);
     }
+
 }
