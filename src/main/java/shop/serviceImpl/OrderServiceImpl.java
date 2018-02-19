@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import shop.base.BaseMap.ResMap;
+import shop.base.EnumCode.ActiveEnum;
 import shop.base.EnumCode.OrderStatusEnum;
 import shop.base.EnumCode.PaymentStatusEnum;
 import shop.base.EnumCode.ShippingStatusEnum;
@@ -73,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
             }
             TOrderItem tOrderItem = new TOrderItem();
             OrderPO orderPO = new OrderPO();
-            if (this.buildOrderItem(tOrderItem, goodVtp)) {
+            if (this.buildOrderItem(tOrderItem, goodVtp, orderPO)) {
                 if (this.buildOrder(orderPO, tOrderItem, goodVtp, openId)) {
                     if (this.insertOrderItemTransactional(orderPO, tOrderItem)) {
                         logger.info("创建订单，成功，orderId：" + orderPO.getOrderSn());
@@ -84,10 +85,20 @@ public class OrderServiceImpl implements OrderService {
         return null;
     }
 
+    /**
+     * 组装订单参数 t_order
+     * @param orderPO
+     * @param tOrderItem
+     * @param goodVtp
+     * @param openId
+     * @return
+     */
     private boolean buildOrder(OrderPO orderPO, TOrderItem tOrderItem, GoodVtp goodVtp, String openId) {
         boolean flag = false;
         try {
             orderPO.setBuyerId(openId);
+            orderPO.setSellerId(1L);
+            orderPO.setActive(true);
             orderPO.setOrderSn(GenerateNum.getInstance().GenerateOrder());
             orderPO.setOrderStatus(OrderStatusEnum.NO_CONFIRM.getKey());
             orderPO.setPaymentStatus(PaymentStatusEnum.NO_PAY.getKey());
@@ -101,11 +112,18 @@ public class OrderServiceImpl implements OrderService {
         return flag;
     }
 
-    private boolean buildOrderItem(TOrderItem tOrderItem, GoodVtp goodVtp) {
+    /**
+     * 通过商品id查询商品详情
+     * @param tOrderItem
+     * @param goodVtp
+     * @return
+     */
+    private boolean buildOrderItem(TOrderItem tOrderItem, GoodVtp goodVtp, OrderPO orderPO) {
         boolean flag = false;
         ProductPO product;
         try {
-            product = productPOMapper.selectByPrimaryKey(Long.parseLong(goodVtp.getGoodsId()));
+           // Long.parseLong(goodVtp.getGoodsId())=11l;
+            product = productPOMapper.selectByPrimaryKey(11L);
             if (product == null) {
                 logger.info("创建订单，通过商品Id查询商品，为空,goodId:" + goodVtp.getGoodsId());
                 return flag;
@@ -118,6 +136,7 @@ public class OrderServiceImpl implements OrderService {
             tOrderItem.setPrice(new BigDecimal(product.getPrice()));
             tOrderItem.setQuantity(Integer.valueOf(goodVtp.getNumber()));
             tOrderItem.setUpdated(new Date());
+            orderPO.setTotalPrice(new BigDecimal(product.getPrice()));
             flag = true;
         } catch (NumberFormatException e) {
             logger.info("创建订单，通过商品Id,查询商品，异常");
@@ -127,8 +146,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
     public boolean insertOrderItemTransactional(OrderPO orderPO, TOrderItem itemPO) {
+        int orderId = orderPOMapper.insert(orderPO);
+        itemPO.setOrderId((long)orderId);
         tOrderItemMapper.insert(itemPO);
-        orderPOMapper.insert(orderPO);
         return true;
     }
 

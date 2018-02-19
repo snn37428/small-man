@@ -203,7 +203,7 @@ public class LoginServiceImpl implements LoginService {
             log.info("数据库，查询openId失败。token:" + token);
             return null;
         }
-        if (StringUtils.isNotBlank(token) && new Date().getTime() - tyUser.getCreated().getTime() < timeOut) {
+        if (StringUtils.isNotBlank(token)) {
             log.info("数据库，验证token成功" + token);
             return tyUser.getOpenid();
         }
