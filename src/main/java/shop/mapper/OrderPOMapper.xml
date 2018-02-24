@@ -37,7 +37,8 @@
     delete from t_order
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="shop.pojo.OrderPO" >
+  <insert id="insert" parameterType="shop.pojo.OrderPO"
+          useGeneratedKeys="true" keyProperty="id" keyColumn="id" >
     insert into t_order (id, seller_id, buyer_id, 
       order_sn, order_status, payment_status, 
       shipping_status, receiver_id, total_price, 

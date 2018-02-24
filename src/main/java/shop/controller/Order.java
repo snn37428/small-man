@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import shop.pojo.Auc;
 import shop.service.OrderService;
 import shop.vtp.OrderVtp;
 import shop.vtp.PayOrderVtp;
@@ -23,7 +24,12 @@ public class Order {
 
     @RequestMapping(value = "create")
     public  @ResponseBody Map create(OrderVtp orderVtp) {
-        orderService.create(orderVtp);
-        return null;
+        return orderService.create(orderVtp);
     }
+
+    @RequestMapping(value = "list")
+    public @ResponseBody Map list(Auc auc) {
+        return orderService.list(auc);
+    }
+
 }

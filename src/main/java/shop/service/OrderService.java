@@ -1,5 +1,6 @@
 package shop.service;
 
+import shop.pojo.Auc;
 import shop.vtp.OrderVtp;
 import shop.vtp.PayOrderVtp;
 
@@ -17,4 +18,11 @@ public interface OrderService {
      */
     Map create(OrderVtp orderVtp);
 
+    /**
+     * 查询订单
+     *
+     * @param auc
+     * @return
+     */
+    Map list(Auc auc);
 }

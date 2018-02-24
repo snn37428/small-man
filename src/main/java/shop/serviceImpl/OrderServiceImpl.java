@@ -16,6 +16,7 @@ import shop.base.EnumCode.ShippingStatusEnum;
 import shop.dao.OrderPOMapper;
 import shop.dao.ProductPOMapper;
 import shop.dao.TOrderItemMapper;
+import shop.pojo.Auc;
 import shop.pojo.OrderPO;
 import shop.pojo.ProductPO;
 import shop.pojo.TOrderItem;
@@ -85,6 +86,16 @@ public class OrderServiceImpl implements OrderService {
         return null;
     }
 
+    @Override
+    public Map list(Auc auc) {
+
+        if (auc == null || StringUtils.isBlank(auc.getToken())) {
+            return ResMap.getNullParamMap();
+        }
+        
+        return null;
+    }
+
     /**
      * 组装订单参数 t_order
      * @param orderPO
@@ -100,10 +111,11 @@ public class OrderServiceImpl implements OrderService {
             orderPO.setSellerId(1L);
             orderPO.setActive(true);
             orderPO.setOrderSn(GenerateNum.getInstance().GenerateOrder());
-            orderPO.setOrderStatus(OrderStatusEnum.NO_CONFIRM.getKey());
-            orderPO.setPaymentStatus(PaymentStatusEnum.NO_PAY.getKey());
-            orderPO.setShippingStatus(ShippingStatusEnum.NO_SEND.getKey());
+            orderPO.setOrderStatus(OrderStatusEnum.NO_CONFIRM.getKey());//订单状态
+            orderPO.setPaymentStatus(PaymentStatusEnum.NO_PAY.getKey());//支付状态
+            orderPO.setShippingStatus(ShippingStatusEnum.NO_SEND.getKey());//发货状态
             orderPO.setReceiverId("");
+            orderPO.setCreated(new Date());
             orderPO.setUpdated(new Date());
             flag = true;
         } catch (Exception e) {
@@ -135,6 +147,7 @@ public class OrderServiceImpl implements OrderService {
             tOrderItem.setProductImg(product.getImage());
             tOrderItem.setPrice(new BigDecimal(product.getPrice()));
             tOrderItem.setQuantity(Integer.valueOf(goodVtp.getNumber()));
+            tOrderItem.setCreated(new Date());
             tOrderItem.setUpdated(new Date());
             orderPO.setTotalPrice(new BigDecimal(product.getPrice()));
             flag = true;
@@ -147,7 +160,7 @@ public class OrderServiceImpl implements OrderService {
     @Transactional(isolation = Isolation.READ_COMMITTED, rollbackFor = Exception.class)
     public boolean insertOrderItemTransactional(OrderPO orderPO, TOrderItem itemPO) {
         int orderId = orderPOMapper.insert(orderPO);
-        itemPO.setOrderId((long)orderId);
+        itemPO.setOrderId(orderPO.getId());
         tOrderItemMapper.insert(itemPO);
         return true;
     }
