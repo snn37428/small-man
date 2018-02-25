@@ -3,6 +3,8 @@ package shop.serviceImpl;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +15,7 @@ import shop.pojo.ProductPO;
 import shop.service.ProductService;
 import shop.utils.RedisUtils;
 import shop.vo.ProductVo;
+import shop.vtp.GoodVtp;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -24,6 +27,8 @@ import java.util.Map;
  */
 @Service("ProductServiceImpl")
 public class ProductServiceImpl implements ProductService {
+
+    private final static Logger log = LogManager.getLogger(ProductServiceImpl.class);
 
     @Resource(name = "productPOMapper")
     private ProductPOMapper productPOMapper;
@@ -43,27 +48,44 @@ public class ProductServiceImpl implements ProductService {
         if (StringUtils.isNotBlank(pvList)) {
             return ResMap.getSuccessMap(JSONObject.parseArray(pvList, ProductVo.class));
         }
-        List<ProductVo> pvLists = this.convertProduct(productPOMapper.listProduct());
+        List<ProductVo> pvLists = this.bulidProductGoodsVO(productPOMapper.listProduct());
         redisUtils.set("listProduct", JSON.toJSON(pvLists).toString());
         return ResMap.getSuccessMap(pvLists);
+    }
+
+    @Override
+    public Map goodsList(GoodVtp goodVtp) {
+        //默认走商城模式
+        goodVtp.setCategoryId("5");
+
+        if (goodVtp == null || StringUtils.isBlank(goodVtp.getCategoryId())) {
+            log.info("获取商品列表，参数为空, goodVtp: " + JSON.toJSONString(goodVtp));
+            return ResMap.errCodeMap("参数为空");
+        }
+        List<ProductPO> productPOS = productPOMapper.selectByCategoryId(Long.parseLong(goodVtp.getCategoryId()));
+        if (CollectionUtils.isEmpty(productPOS)) {
+            ResMap.nullDataMap("查询商品列表数据为空，调用方法：goodsList");
+        }
+        List<ProductVo> dataVo = bulidProductGoodsVO(productPOS);
+        return  ResMap.successDataMap(dataVo, "获取商品列表成功");
     }
 
 
     /**
      * 转化为product视图对象
      *
-     * @param listProductModel
+     * @param productPOS
      * @return
      */
-    private List<ProductVo> convertProduct(List<ProductPO> listProductModel) {
+    private List<ProductVo> bulidProductGoodsVO(List<ProductPO> productPOS) {
 
         List<ProductVo> productVos = new ArrayList<ProductVo>();
 
-        if (CollectionUtils.isEmpty(listProductModel)) {
+        if (CollectionUtils.isEmpty(productPOS)) {
             return productVos;
         }
 
-        for (ProductPO productPO : listProductModel) {
+        for (ProductPO productPO : productPOS) {
             if (productPO == null) {
                 continue;
             }

@@ -1,11 +1,11 @@
 package shop.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shop.service.IndexService;
 import shop.service.ProductService;
+import shop.vtp.GoodVtp;
 
 import javax.annotation.Resource;
 import java.util.Map;
@@ -36,5 +36,10 @@ public class Index {
         return productService.listProduct();
     }
 
+    @RequestMapping(value = "/shop/goods/list")
+    @ResponseBody
+    public Map goods(GoodVtp goodVtp) {
+        return productService.goodsList(goodVtp);
+    }
 
 }

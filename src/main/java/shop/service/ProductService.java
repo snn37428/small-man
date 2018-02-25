@@ -1,6 +1,7 @@
 package shop.service;
 
 import shop.pojo.ProductPO;
+import shop.vtp.GoodVtp;
 
 import java.util.Map;
 
@@ -23,4 +24,10 @@ public interface ProductService {
      * @return
      */
     Map listProduct();
+
+    /**
+     * 获取商品列表
+     * @return
+     */
+    Map goodsList(GoodVtp goodVtp);
 }

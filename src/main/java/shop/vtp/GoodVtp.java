@@ -5,7 +5,7 @@ package shop.vtp;
  *
  * @author: songningning
  * @date: created in 2018/1/21 1:16
- * @modified: by
+ * @modified: by 2018、2、24
  */
 public class GoodVtp {
 
@@ -13,6 +13,7 @@ public class GoodVtp {
     private String number; //商品数量
     private String propertyChildIds;
     private String logisticsType;
+    private String categoryId;//商品组别
 
     public String getGoodsId() {
         return goodsId;
@@ -47,6 +48,14 @@ public class GoodVtp {
     }
 
     public GoodVtp() {
+    }
+
+    public String getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(String categoryId) {
+        this.categoryId = categoryId;
     }
 
     public GoodVtp(String goodsId, String number, String propertyChildIds, String logisticsType) {
