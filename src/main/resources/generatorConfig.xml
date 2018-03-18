@@ -51,18 +51,14 @@
             <property name="enableSubPackages" value="false"/>
         </javaClientGenerator>
 
-        <!-- 指定数据库表
-        <table tableName="t_order"
-               domainObjectName="OrderPO"
+        <!-- 指定数据库表-->
+        <table tableName="2"
+               domainObjectName="Spot"
                enableCountByExample="false"
                enableDeleteByExample="false"
                enableSelectByExample="false"
                enableUpdateByExample="false">
         </table>
-
-
-        -->
-
 
     </context>
 
