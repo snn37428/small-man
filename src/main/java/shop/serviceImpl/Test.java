@@ -1,6 +1,8 @@
 package shop.serviceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import shop.dao.SpotMapper;
+import shop.pojo.Spot;
 
 /**
  * 类说明
@@ -11,20 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
  */
 public class Test {
 @Autowired
-    private OrderPOMapper orderPOMapper;
+    private SpotMapper orderPOMapper;
 
     public void test1 () {
-        OrderPO se = new OrderPO();
-        se.setPlcId(11);
+        Spot se = new Spot();
+     se.setPlcId(22);
         orderPOMapper.insert(se);
         System.out.println("8");
     }
 
-    public OrderPOMapper getOrderPOMapper() {
-        return orderPOMapper;
-    }
 
-    public void setOrderPOMapper(OrderPOMapper orderPOMapper) {
-        this.orderPOMapper = orderPOMapper;
-    }
 }
