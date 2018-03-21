@@ -17,7 +17,8 @@ public class Test {
 
     public void test1 () {
         Spot se = new Spot();
-     se.setPlcId(22);
+        se.setPlcId(25);
+        se.setSpotName("gag");
         orderPOMapper.insert(se);
         System.out.println("8");
     }

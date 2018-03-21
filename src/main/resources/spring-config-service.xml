@@ -1,16 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:task="http://www.springframework.org/schema/task"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
-                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+                        http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
 
+    <util:properties id="configSpot" local-override="true" location="classpath:spot.properties" />
+    <bean id="loadConfigService" class="shop.serviceImpl.LoadConfigService"  init-method="init">
+        <property name="configSpot" ref="configSpot"/>
+    </bean>
 
     <bean name="test" class="shop.serviceImpl.Test">
     </bean>
 
+    <bean id="modBusTask" class="shop.serviceImpl.ModBusTask">
+        <!-- 任务定时器开关，1为打开，0为关闭-->
+        <property name="switchMap">
+            <map>
+                <entry key="inputRegister" value="1" />
+            </map>
+        </property>
+    </bean>
+
     <task:scheduled-tasks>
 
-        <task:scheduled ref="test" method="test1" cron="*/5 * * * * ?" />
+        <task:scheduled ref="modBusTask" method="inputRegister" cron="*/5 * * * * ?" />
 
     </task:scheduled-tasks>
 </beans>
