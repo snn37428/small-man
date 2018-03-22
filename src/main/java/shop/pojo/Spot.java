@@ -17,6 +17,8 @@ public class Spot {
 
     private Date created;
 
+    private String tableIndex;
+
     public Integer getId() {
         return id;
     }
@@ -71,5 +73,13 @@ public class Spot {
 
     public void setCreated(Date created) {
         this.created = created;
+    }
+
+    public String getTableIndex() {
+        return tableIndex;
+    }
+
+    public void setTableIndex(String tableIndex) {
+        this.tableIndex = tableIndex;
     }
 }
