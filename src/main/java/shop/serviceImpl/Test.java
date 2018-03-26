@@ -22,33 +22,41 @@ import java.util.List;
 public class Test {
     @Autowired
     private SpotMapper orderPOMapper;
-    private String ip = "127.0.0.1";
+    private String ip = "192.168.1.1";
     private int port = 502;
 //单个信息写入
     public void test1 () {
         Spot se = new Spot();
         se.setPlcId(25);
         se.setSpotName("gagse");
+        se.setTableIndex("int_0");
         orderPOMapper.insert(se);
         System.out.println("8");
     }
 //多个信息入库
     public void test2(){
-        List<Spot> l = new ArrayList<Spot>();
-        Spot se = new Spot();
-        se.setPlcId(25);
-        se.setSpotName("gag");
-        l.add(se);
-        Spot s2 = new Spot();
-        s2.setPlcId(27);
-        s2.setSpotName("gaerww");
-        l.add(s2);
-        orderPOMapper.insertSpots(l);
-        System.out.println("test===========");
+        try {
+            List<Spot> l = new ArrayList<Spot>();
+            Spot se = new Spot();
+            se.setPlcId(25);
+            se.setSpotName("gag");
+            se.setTableIndex("int_0");
+            l.add(se);
+            Spot s2 = new Spot();
+            s2.setPlcId(27);
+            s2.setSpotName("gaerww");
+            s2.setTableIndex("int_0");
+            l.add(s2);
+            orderPOMapper.insertSpotInt(l);
+            System.out.println("test===========");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     //readInputRegister 3000 地址+1 例如：30004 传入 3
     public void test3() {
+        int dd = 2342;
         try {
             InetAddress addr = InetAddress.getByName(ip);
             TCPMasterConnection con = new TCPMasterConnection(addr);
@@ -56,7 +64,7 @@ public class Test {
             con.setPort(port);
             con.connect();
             //这里重点说明下，这个地址和数量一定要对应起来
-            ReadInputRegistersRequest req = new ReadInputRegistersRequest(2, 1);
+            ReadInputRegistersRequest req = new ReadInputRegistersRequest(dd, 1);
             //这个SlaveId一定要正确
             req.setUnitID(1);
             ModbusTCPTransaction trans = new ModbusTCPTransaction(con);
@@ -64,7 +72,7 @@ public class Test {
             trans.execute();
             ReadInputRegistersResponse res = (ReadInputRegistersResponse) trans.getResponse();
             int data = res.getRegisterValue(0);
-            System.out.println("--------------------data" + data);
+            System.out.println("--------------------点地址："+ dd + "   |读出结果：" + data);
             con.close();
         } catch (Exception e) {
             e.printStackTrace();
@@ -73,13 +81,14 @@ public class Test {
     }
     //readInputRegister 4000
     public void test4() {
-        int data = 0;
+        int dd = 1;
+        int data = 2002;
         try {
             InetAddress addr = InetAddress.getByName(ip);
             TCPMasterConnection con = new TCPMasterConnection(addr);
             con.setPort(port);
             con.connect();
-            ReadMultipleRegistersRequest req = new ReadMultipleRegistersRequest(0, 1);
+            ReadMultipleRegistersRequest req = new ReadMultipleRegistersRequest(dd, 1);
             req.setUnitID(1);
             ModbusTCPTransaction trans = new ModbusTCPTransaction(con);
             trans.setRequest(req);
@@ -90,7 +99,7 @@ public class Test {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println("--------------------data" + data);
+        System.out.println("--------------------点地址："+ dd + "   |读出结果：" + data);
     }
     //readInputRegister 1000
     public void test5(){
@@ -130,11 +139,10 @@ public class Test {
             con.setPort(Integer.parseInt(LoadConfigService.getPort()));
             con.connect();
             System.out.println("");
-            int i = 0;
+
             for(Spot spt : ListInt) {
-                i ++;
-                spt.setModbusAddress(i);
-                ReadInputRegistersRequest req = new ReadInputRegistersRequest(i, 1);
+
+                ReadInputRegistersRequest req = new ReadInputRegistersRequest(spt.getModbusAddress(), 1);
                 req.setUnitID(1);
                 ModbusTCPTransaction trans = new ModbusTCPTransaction(con);
                 trans.setRequest(req);
@@ -150,7 +158,7 @@ public class Test {
         }
     }
 
-    //批量操作3000
+    //批量操作1000
     public void testList2() {
         List<Spot> ListB = LoadConfigService.getSpotListB();
         if (CollectionUtils.isEmpty(ListB)) {
@@ -164,7 +172,7 @@ public class Test {
             con.connect();
             for(Spot spt : ListB) {
                 int data = 0;
-                ReadInputDiscretesRequest req = new ReadInputDiscretesRequest(3, 1);
+                ReadInputDiscretesRequest req = new ReadInputDiscretesRequest(spt.getModbusAddress(), 1);
                 req.setUnitID(1);
                 ModbusTCPTransaction trans = new ModbusTCPTransaction(con);
                 trans.setRequest(req);
@@ -173,12 +181,23 @@ public class Test {
                 if(res.getDiscretes().getBit(0)){
                     data = 1;
                     spt.setValue(String.valueOf(1));
+                } else {
+                    spt.setValue(String.valueOf(0));
                 }
+                System.out.println("=============================" +data);
+                System.out.println("=============================" +spt.getSpotDesc());
             }
             con.close();
         } catch (Exception e) {
             System.out.println("=====readInputRegister，1000地址，批量读取PLC数值异常%%%%%");
         }
+
+        try {
+            orderPOMapper.insertSpotBool(ListB);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
 
 

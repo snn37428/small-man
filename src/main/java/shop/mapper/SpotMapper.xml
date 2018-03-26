@@ -24,14 +24,22 @@
     where id = #{id,jdbcType=INTEGER}
   </delete>
   <insert id="insert" parameterType="shop.pojo.Spot" >
-    insert into ty_control_${tableIndex} (id, plc_id, spot_name, spot_desc, modbus_address, value, created)
+    insert into ty_control_int_0 (id, plc_id, spot_name, spot_desc, modbus_address, value, created)
     values (#{id,jdbcType=INTEGER}, #{plcId,jdbcType=INTEGER}, #{spotName,jdbcType=VARCHAR}, 
       #{spotDesc,jdbcType=VARCHAR}, #{modbusAddress,jdbcType=INTEGER}, #{value,jdbcType=VARCHAR}, 
       #{created,jdbcType=TIMESTAMP})
   </insert>
 
-  <insert id="insertSpots" parameterType="java.util.ArrayList">
-    insert into ty_control_${tableIndex}(id, plc_id, spot_name, spot_desc, modbus_address, value, created)
+  <insert id="insertSpotInt" parameterType="java.util.ArrayList">
+    insert into ty_control_int_0(id, plc_id, spot_name, spot_desc, modbus_address, value, created)
+    values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (#{item.id},#{item.plcId},#{item.spotName},#{item.spotDesc},#{item.modbusAddress}, #{item.value}, now())
+    </foreach>
+  </insert>
+
+  <insert id="insertSpotBool" parameterType="java.util.ArrayList">
+    insert into ty_control_bool_0(id, plc_id, spot_name, spot_desc, modbus_address, value, created)
     values
     <foreach collection="list" item="item" index="index" separator=",">
       (#{item.id},#{item.plcId},#{item.spotName},#{item.spotDesc},#{item.modbusAddress}, #{item.value}, now())

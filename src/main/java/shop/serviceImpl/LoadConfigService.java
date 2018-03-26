@@ -1,7 +1,9 @@
 package shop.serviceImpl;
 
+import com.mysql.jdbc.StringUtils;
 import shop.pojo.Spot;
 
+import javax.smartcardio.CommandAPDU;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -21,6 +23,7 @@ public class LoadConfigService {
     private static List<Spot> spotListB = new ArrayList<Spot>();
     private static List<Spot> spotListInt = new ArrayList<Spot>();
     private static List<Spot> spotListReal = new ArrayList<Spot>();
+    
 
     /**
      * 初始化配置

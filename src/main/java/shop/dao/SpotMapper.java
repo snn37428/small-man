@@ -9,7 +9,9 @@ public interface SpotMapper {
 
     int insert(Spot record);
 
-    int insertSpots(List<Spot> spotList);
+    int insertSpotInt(List<Spot> spotList);
+
+    int insertSpotBool(List<Spot> spotList);
 
     int insertSelective(Spot record);
 
@@ -18,4 +20,5 @@ public interface SpotMapper {
     int updateByPrimaryKeySelective(Spot record);
 
     int updateByPrimaryKey(Spot record);
+
 }
