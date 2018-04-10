@@ -4,8 +4,50 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
+    <!--<util:properties id="configSpot" local-override="true" location="classpath:spot.properties" />-->
+    <bean id="configSpot" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+    <property name="location" value="classpath:spot.properties"/>
+    <property name="fileEncoding" value="UTF-8"/>
+    </bean>
+
+    <bean id="loadConfig" class="com.modbus.task.util.LoadConfig"  init-method="init">
+        <property name="configSpot" ref="configSpot"/>
+    </bean>
+
+    <bean name="test" class="com.modbus.task.test.Test">
+    </bean>
+
+    <bean id="modBusTask" class="com.modbus.task.task.MainTask">
+        <!-- 任务定时器开关，1为打开，0为关闭 3000地址 -->
+        <property name="taskSwitchMap">
+            <map>
+                <entry key="CODELIST_ON" value="1" />
+                <entry key="CODELIST_TH" value="1" />
+                <entry key="CODELIST_FR" value="1" />
+            </map>
+        </property>
+
+        <!--入库标识，1为入库，0为不入库 3000地址 -->
+        <property name="dataSwitchMap">
+            <map>
+                <entry key="CODELIST_ON" value="1" />
+                <entry key="CODELIST_TH" value="1" />
+                <entry key="CODELIST_FR" value="1" />
+            </map>
+        </property>
+
+        <!--数据库表标签，对应方法，对应表名字 -->
+        <property name="tableIndexMap">
+            <map>
+                <entry key="inputRegister" value="int_0" />
+                <entry key="readDigitalInput" value="bool_0" />
+            </map>
+        </property>
+
+    </bean>
 
     <task:scheduled-tasks>
-        <task:scheduled ref="test" method="test1" cron="*/5 * * * * ?" />
+        <task:scheduled ref="modBusTask" method="readInputRegister3" cron="*/5 * * * * ?" />
+        <!--<task:scheduled ref="modBusTask" method="inputRegister" cron="*/5 * * * * ?" />-->
     </task:scheduled-tasks>
 </beans>

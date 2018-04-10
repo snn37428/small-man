@@ -37,8 +37,8 @@ public class Modbus4jUtils {
      */
     public static ModbusMaster getMaster() throws ModbusInitException {
         IpParameters params = new IpParameters();
-        params.setHost("127.0.0.1");
-        params.setPort(502);
+        params.setHost(LoadConfig.getIp());
+        params.setPort(Integer.valueOf(LoadConfig.getPort()));
         // modbusFactory.createRtuMaster(wapper); //RTU 协议
         // modbusFactory.createUdpMaster(params);//UDP 协议
         // modbusFactory.createAsciiMaster(wrapper);//ASCII 协议
