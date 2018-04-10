@@ -35,7 +35,7 @@ import java.util.Map;
 /**
  * Created by songningning1 on 2017/10/17.
  */
-@Service("OrderServiceImpl")
+@Service("orderServiceImpl")
 public class OrderServiceImpl implements OrderService {
 
     private static final Logger logger = Logger.getLogger(OrderServiceImpl.class);

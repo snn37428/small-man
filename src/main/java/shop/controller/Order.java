@@ -19,12 +19,14 @@ import java.util.Map;
 @RequestMapping("/order")
 public class Order {
 
-    @Resource(name = "OrderServiceImpl")
+    @Resource(name = "orderServiceImpl")
     private OrderService orderService;
 
     @RequestMapping(value = "create")
     public  @ResponseBody Map create(OrderVtp orderVtp) {
-        return orderService.create(orderVtp);
+        return null;
+      //  return orderService.create(orderVtp);
+
     }
 
     @RequestMapping(value = "list")
