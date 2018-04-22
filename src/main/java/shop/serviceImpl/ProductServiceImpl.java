@@ -11,7 +11,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import shop.base.BaseMap.ResMap;
 import shop.dao.ProductPOMapper;
+import shop.dao.TProductImageMapper;
+import shop.pojo.ConfigPojo;
 import shop.pojo.ProductPO;
+import shop.pojo.TProductImage;
 import shop.service.ProductService;
 import shop.utils.RedisUtils;
 import shop.vo.ProductVo;
@@ -32,6 +35,10 @@ public class ProductServiceImpl implements ProductService {
 
     @Resource(name = "productPOMapper")
     private ProductPOMapper productPOMapper;
+
+    @Resource(name = "configImgUrl")
+    private ConfigPojo configPojo;
+
 
     @Autowired
     private RedisUtils redisUtils;
@@ -56,7 +63,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public Map goodsList(GoodVtp goodVtp) {
         //默认走商城模式
-        goodVtp.setCategoryId("5");
+       // goodVtp.setCategoryId("5");
 
         if (goodVtp == null || StringUtils.isBlank(goodVtp.getCategoryId())) {
             log.info("获取商品列表，参数为空, goodVtp: " + JSON.toJSONString(goodVtp));
@@ -82,16 +89,21 @@ public class ProductServiceImpl implements ProductService {
         List<ProductVo> productVos = new ArrayList<ProductVo>();
 
         if (CollectionUtils.isEmpty(productPOS)) {
+            log.info("商品列表为空");
             return productVos;
         }
 
         for (ProductPO productPO : productPOS) {
-            if (productPO == null) {
+            if (productPO == null || productPO.getIsList() == null || productPO.getIsList() == false) {
+                log.info("商品列表中，商品为空或设置为：不被展示" + JSON.toJSONString(productPO));
                 continue;
             }
             ProductVo productVo = new ProductVo();
-            BeanUtils.copyProperties(productVo, productPO);
-            productVo.setIcon(productPO.getImage());
+            productVo.setCategoryId(productPO.getId());
+            productVo.setPic(configPojo.getImgUrl() + productPO.getImage());
+            productVo.setIcon(configPojo.getImgUrl() + productPO.getImage());
+            productVo.setName(productPO.getName());
+            productVo.setMinPrice(productPO.getPrice());
             productVos.add(productVo);
         }
         return productVos;

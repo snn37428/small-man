@@ -4,5 +4,17 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-3.1.xsd">
 
+    <!-- 属性文件读入 -->
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location">
+            <value>classpath:config.properties</value>
+        </property>
+    </bean>
+
+    <bean id="configImgUrl" class="shop.pojo.ConfigPojo">
+        <property name="imgUrl" value="${imgUrl}"/>
+    </bean>
+
+
 
 </beans>

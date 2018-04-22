@@ -24,8 +24,8 @@ public class Order {
 
     @RequestMapping(value = "create")
     public  @ResponseBody Map create(OrderVtp orderVtp) {
-        return null;
-      //  return orderService.create(orderVtp);
+//        return null;
+        return orderService.create(orderVtp);
 
     }
 

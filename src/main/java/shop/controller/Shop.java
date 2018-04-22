@@ -5,24 +5,20 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import shop.base.BaseMap.ResMap;
+import shop.serviceImpl.ShopServiceImpl;
 
+import javax.annotation.Resource;
 import java.util.Map;
 
 @Controller
 @RequestMapping("shop")
 public class Shop {
 
-    private static final Logger logger = Logger.getLogger(Shop.class);
+    @Resource(name = "shopServiceImpl")
+    private ShopServiceImpl shopServiceImpl;
 
-    @RequestMapping(value = "goods/list")
+    @RequestMapping(value = "goods/detail")
     public @ResponseBody Map list(String categoryId) {
-
-        try {
-
-        } catch (Exception e) {
-            logger.error("添加地址，异常" + e);
-            return ResMap.getExceptionMap();
-        }
-        return null;
+        return shopServiceImpl.goodsDetail(categoryId);
     }
 }
