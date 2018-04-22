@@ -100,6 +100,7 @@ public class ProductServiceImpl implements ProductService {
             }
             ProductVo productVo = new ProductVo();
             productVo.setCategoryId(productPO.getId());
+            productVo.setId(productPO.getId());
             productVo.setPic(configPojo.getImgUrl() + productPO.getImage());
             productVo.setIcon(configPojo.getImgUrl() + productPO.getImage());
             productVo.setName(productPO.getName());

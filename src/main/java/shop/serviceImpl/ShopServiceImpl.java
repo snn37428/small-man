@@ -8,8 +8,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import shop.base.BaseMap.ResMap;
+import shop.dao.ProductPOMapper;
 import shop.dao.TProductImageMapper;
 import shop.pojo.ConfigPojo;
+import shop.pojo.ProductPO;
 import shop.pojo.TProductImage;
 import shop.service.ShopService;
 import shop.vo.detail.BasicInfo;
@@ -39,42 +41,53 @@ public class ShopServiceImpl implements ShopService {
     @Resource(name = "tProductImageMapper")
     private TProductImageMapper tProductImageMapper;
 
+    @Resource(name = "productPOMapper")
+    private ProductPOMapper productPOMapper;
+
     @Override
     public Map goodsDetail(String categoryId) {
 
-        BasicInfo basicInfo = new BasicInfo();
-        basicInfo.setId("11");
-        basicInfo.setName("兰蔻「小黑瓶」精华肌底眼部凝霜眼霜15ml 眼膜霜 淡化细纹黑眼圈");
-        basicInfo.setMinPrice("23");
-        basicInfo.setStores(21);
-        basicInfo.setPic("https://cdn.it120.cc/apifactory/2017/04/26/a91ca6e8a3b73163664ef39eb8237d76.jpg");
-
-        DetailVo dv = new DetailVo();
-        dv.setBasicInfo(basicInfo);
+        DetailVo detailVo = new DetailVo();
 
         Category ca = new Category();
         ca.setIcon("https://cdn.it120.cc/apifactory/2017/04/23/d3d2c6e15e21b8cb6a7bbeabd4da5242.jpg");
         ca.setId("36");
         ca.setName("hahh de");
-        dv.setCategory(ca);
-
-
+        detailVo.setCategory(ca);
+        List<Pic> pics = new ArrayList<Pic>();
+        //上部滚动图片
         List<TProductImage> listProductImage = tProductImageMapper.listProductImage(Integer.parseInt(categoryId));
         if(CollectionUtils.isEmpty(listProductImage)) {
             log.info("商品详情页，获取商品详情时，上部图片列表为空，categoryId ：" + categoryId);
         }
-        List<Pic> pics = new ArrayList<Pic>();
         for (TProductImage tProductImage : listProductImage) {
             if (StringUtils.isBlank(tProductImage.getLarge())) {
                 log.info("商品详情页，获取商品详情时，部分图片列表为空，categoryId ：" + categoryId);
                 continue;
             }
             Pic pic = new Pic();
-            pic.setPic(imgUrl + tProductImage.getLarge());
+            pic.setPic(imgUrl.getImgUrl() + tProductImage.getLarge());
             pic.setGoodsId(categoryId);
+            pic.setId(categoryId);
             pics.add(pic);
         }
-        dv.setPics(pics);
-        return ResMap.successDataMap(dv, "获取商品列表成功");
+        detailVo.setPics(pics);
+        //价格，商品介绍
+        ProductPO productPO = productPOMapper.selectByPrimaryKey(Long.parseLong(categoryId));
+        if (StringUtils.isBlank(productPO.getIntroduction())) {
+            log.info("商品详情页，获取商品详情时，商品内容为空，categoryId ：" + categoryId);
+        }
+        detailVo.setContent(productPO.getIntroduction());
+
+        BasicInfo basicInfo = new BasicInfo();
+        basicInfo.setId(String.valueOf(productPO.getId()));
+        basicInfo.setName(productPO.getNameDesc());
+        basicInfo.setMinPrice(productPO.getPrice());
+        basicInfo.setStores(productPO.getStock());
+        basicInfo.setPic(imgUrl.getImgUrl() + productPO.getImage());
+        detailVo.setBasicInfo(basicInfo);
+
+
+        return ResMap.successDataMap(detailVo, "获取商品列表成功");
     }
 }
