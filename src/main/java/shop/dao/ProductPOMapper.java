@@ -15,6 +15,8 @@ public interface ProductPOMapper {
 
     ProductPO selectByPrimaryKey(Long id);
 
+    ProductPO selectByNameDesc(String nameDesc);
+
     List<ProductPO> selectByCategoryId(Long id);
 
     int updateByPrimaryKeySelective(ProductPO record);

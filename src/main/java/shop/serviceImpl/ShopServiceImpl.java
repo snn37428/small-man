@@ -50,7 +50,7 @@ public class ShopServiceImpl implements ShopService {
         DetailVo detailVo = new DetailVo();
 
         Category ca = new Category();
-        ca.setIcon("https://cdn.it120.cc/apifactory/2017/04/23/d3d2c6e15e21b8cb6a7bbeabd4da5242.jpg");
+        ca.setIcon("http://localhost:8089/upload/2/20180421/Chrysanthemum1.jpg");
         ca.setId("36");
         ca.setName("hahh de");
         detailVo.setCategory(ca);

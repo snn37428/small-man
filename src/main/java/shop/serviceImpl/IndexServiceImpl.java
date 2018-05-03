@@ -1,10 +1,19 @@
 package shop.serviceImpl;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 import shop.base.BaseMap.ResMap;
+import shop.dao.ProductPOMapper;
+import shop.dao.TProductImageMapper;
 import shop.model.BannerModel;
+import shop.pojo.ConfigPojo;
+import shop.pojo.ProductPO;
+import shop.pojo.TProductImage;
 import shop.service.IndexService;
 
+import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,24 +24,38 @@ import java.util.Map;
 @Service("IndexServiceImpl")
 public class IndexServiceImpl implements IndexService {
 
+    private final static Logger log = LogManager.getLogger(IndexServiceImpl.class);
+
+    @Resource(name = "productPOMapper")
+    private ProductPOMapper productPOMapper;
+
+    @Resource(name = "tProductImageMapper")
+    private TProductImageMapper tProductImageMapper;
+
+    @Resource(name = "configImgUrl")
+    private ConfigPojo imgUrl;
 
     public Map listBanner() {
-        BannerModel bannerModel = new BannerModel();
-        bannerModel.setBusinessId(1);
-        bannerModel.setPicUrl("https://cdn.it120.cc/apifactory/2017/04/23/ddba8b8438f5163144f340ef400a90a7.jpg");
 
-        BannerModel bannerModel2 = new BannerModel();
-        bannerModel2.setBusinessId(2);
-        bannerModel2.setPicUrl("https://cdn.it120.cc/apifactory/2017/04/23/b93e2e307ec6695d258cb72143af0d54.jpg");
-
-        BannerModel bannerModel3 = new BannerModel();
-        bannerModel3.setBusinessId(3);
-        bannerModel3.setPicUrl("https://cdn.it120.cc/apifactory/2017/04/23/6aa1e03d895ad64014c034e555d28a97.jpg");
-
-        List list = new ArrayList();
-        list.add(bannerModel);
-        list.add(bannerModel2);
-        list.add(bannerModel3);
+        ProductPO prdt = productPOMapper.selectByNameDesc("主页轮播图");
+        if (prdt == null || prdt.getId() == 0) {
+            log.info("首页轮播图为空，未找到 ‘首页轮播图’ 字样");
+        }
+        List<TProductImage> tpImagelist = tProductImageMapper.listProductImage(prdt.getId().intValue());
+        if (tpImagelist == null) {
+            log.info("首页轮播图为空，未找到ID对应的分类图片");
+        }
+        List<BannerModel> list = new ArrayList<BannerModel>();
+        for(TProductImage tp : tpImagelist) {
+            if (tp == null || StringUtils.isBlank(tp.getLarge())) {
+                log.info("首页轮播图为空，ID对应的图片为空");
+                continue;
+            }
+            BannerModel bannerModel = new BannerModel();
+            bannerModel.setBusinessId(tp.getId());
+            bannerModel.setPicUrl(imgUrl.getImgUrl() + tp.getLarge());
+            list.add(bannerModel);
+        }
         return ResMap.getSuccessMap(list);
     }
 }
