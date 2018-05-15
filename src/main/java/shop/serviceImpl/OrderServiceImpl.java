@@ -79,6 +79,7 @@ public class OrderServiceImpl implements OrderService {
                 if (this.buildOrder(orderPO, tOrderItem, goodVtp, openId)) {
                     if (this.insertOrderItemTransactional(orderPO, tOrderItem)) {
                         logger.info("创建订单，成功，orderId：" + orderPO.getOrderSn());
+                        return ResMap.rightCodeMap("创建订单，成功，orderId：" + orderPO.getOrderSn());
                     }
                 }
             }
@@ -135,7 +136,7 @@ public class OrderServiceImpl implements OrderService {
         ProductPO product;
         try {
            // Long.parseLong(goodVtp.getGoodsId())=11l;
-            product = productPOMapper.selectByPrimaryKey(11L);
+            product = productPOMapper.selectByPrimaryKey(Long.valueOf(goodVtp.getGoodsId()));
             if (product == null) {
                 logger.info("创建订单，通过商品Id查询商品，为空,goodId:" + goodVtp.getGoodsId());
                 return flag;

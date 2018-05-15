@@ -3,12 +3,16 @@
 <mapper namespace="shop.dao.TSellerAddrMapper" >
   <resultMap id="BaseResultMap" type="shop.pojo.TSellerAddr" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="seller_id" property="sellerId" jdbcType="BIGINT" />
+    <result column="seller_id" property="sellerId" jdbcType="VARCHAR" />
     <result column="area_id" property="areaId" jdbcType="BIGINT" />
-    <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
-    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="province_id" property="provinceId" jdbcType="VARCHAR" />
+    <result column="province_name" property="provinceName" jdbcType="VARCHAR" />
+    <result column="city_id" property="cityId" jdbcType="VARCHAR" />
+    <result column="city_name" property="cityName" jdbcType="VARCHAR" />
+    <result column="district_id" property="districtId" jdbcType="INTEGER" />
+    <result column="district_name" property="districtName" jdbcType="VARCHAR" />
     <result column="country" property="country" jdbcType="VARCHAR" />
-    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="contact_name" property="contactName" jdbcType="VARCHAR" />
     <result column="addr" property="addr" jdbcType="VARCHAR" />
     <result column="memo" property="memo" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
@@ -77,8 +81,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, seller_id, area_id, contact_name, city, country, province, addr, memo, phone, 
-    seller_company, zip_code, created, updated, active
+    id, seller_id, area_id, province_id, province_name, city_id, city_name, district_id, 
+    district_name, country, contact_name, addr, memo, phone, seller_company, zip_code, 
+    created, updated, active
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="shop.pojo.TSellerAddrExample" >
     select
@@ -94,30 +99,26 @@
       order by ${orderByClause}
     </if>
   </select>
-
-  <select id="selectAddressList" resultMap="BaseResultMap" parameterType="shop.pojo.Auc" >
-    select
-    <include refid="Base_Column_List" />
-    from t_seller_addr
-    where seller_id = #{opendId}
-  </select>
-
-
-
-
-
-
-
-
-
-
-
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from t_seller_addr
     where id = #{id,jdbcType=BIGINT}
   </select>
+
+  <select id="selectByPrimaryMinId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select  <include refid="Base_Column_List" />
+    from t_seller_addr
+  where id= (select min(id) from t_seller_addr  where active = 1 and seller_id = #{sellerId,jdbcType=BIGINT})
+</select>
+
+  <select id="selectListAddress" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from t_seller_addr
+    where active = 1 and seller_id = #{sellerId,jdbcType=BIGINT}
+  </select>
+
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
     delete from t_seller_addr
     where id = #{id,jdbcType=BIGINT}
@@ -130,17 +131,19 @@
   </delete>
   <insert id="insert" parameterType="shop.pojo.TSellerAddr" >
     insert into t_seller_addr (id, seller_id, area_id, 
-      contact_name, city, country, 
-      province, addr, memo, 
-      phone, seller_company, zip_code, 
-      created, updated, active
-      )
-    values (#{id,jdbcType=BIGINT}, #{sellerId,jdbcType=BIGINT}, #{areaId,jdbcType=BIGINT}, 
-      #{contactName,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{country,jdbcType=VARCHAR}, 
-      #{province,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, 
-      #{phone,jdbcType=VARCHAR}, #{sellerCompany,jdbcType=VARCHAR}, #{zipCode,jdbcType=VARCHAR}, 
-      now(), now(), #{active,jdbcType=INTEGER}
-      )
+      province_id, province_name, city_id, 
+      city_name, district_id, district_name, 
+      country, contact_name, addr, 
+      memo, phone, seller_company, 
+      zip_code, created, updated, 
+      active)
+    values (#{id,jdbcType=BIGINT}, #{sellerId,jdbcType=VARCHAR}, #{areaId,jdbcType=BIGINT}, 
+      #{provinceId,jdbcType=VARCHAR}, #{provinceName,jdbcType=VARCHAR}, #{cityId,jdbcType=VARCHAR}, 
+      #{cityName,jdbcType=VARCHAR}, #{districtId,jdbcType=INTEGER}, #{districtName,jdbcType=VARCHAR}, 
+      #{country,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{addr,jdbcType=VARCHAR}, 
+      #{memo,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{sellerCompany,jdbcType=VARCHAR}, 
+      #{zipCode,jdbcType=VARCHAR}, #{created,jdbcType=TIMESTAMP}, #{updated,jdbcType=TIMESTAMP}, 
+      #{active,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="shop.pojo.TSellerAddr" >
     insert into t_seller_addr
@@ -154,17 +157,29 @@
       <if test="areaId != null" >
         area_id,
       </if>
-      <if test="contactName != null" >
-        contact_name,
+      <if test="provinceId != null" >
+        province_id,
       </if>
-      <if test="city != null" >
-        city,
+      <if test="provinceName != null" >
+        province_name,
+      </if>
+      <if test="cityId != null" >
+        city_id,
+      </if>
+      <if test="cityName != null" >
+        city_name,
+      </if>
+      <if test="districtId != null" >
+        district_id,
+      </if>
+      <if test="districtName != null" >
+        district_name,
       </if>
       <if test="country != null" >
         country,
       </if>
-      <if test="province != null" >
-        province,
+      <if test="contactName != null" >
+        contact_name,
       </if>
       <if test="addr != null" >
         addr,
@@ -196,22 +211,34 @@
         #{id,jdbcType=BIGINT},
       </if>
       <if test="sellerId != null" >
-        #{sellerId,jdbcType=BIGINT},
+        #{sellerId,jdbcType=VARCHAR},
       </if>
       <if test="areaId != null" >
         #{areaId,jdbcType=BIGINT},
       </if>
-      <if test="contactName != null" >
-        #{contactName,jdbcType=VARCHAR},
+      <if test="provinceId != null" >
+        #{provinceId,jdbcType=VARCHAR},
       </if>
-      <if test="city != null" >
-        #{city,jdbcType=VARCHAR},
+      <if test="provinceName != null" >
+        #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="districtId != null" >
+        #{districtId,jdbcType=INTEGER},
+      </if>
+      <if test="districtName != null" >
+        #{districtName,jdbcType=VARCHAR},
       </if>
       <if test="country != null" >
         #{country,jdbcType=VARCHAR},
       </if>
-      <if test="province != null" >
-        #{province,jdbcType=VARCHAR},
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
       </if>
       <if test="addr != null" >
         #{addr,jdbcType=VARCHAR},
@@ -252,22 +279,34 @@
         id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.sellerId != null" >
-        seller_id = #{record.sellerId,jdbcType=BIGINT},
+        seller_id = #{record.sellerId,jdbcType=VARCHAR},
       </if>
       <if test="record.areaId != null" >
         area_id = #{record.areaId,jdbcType=BIGINT},
       </if>
-      <if test="record.contactName != null" >
-        contact_name = #{record.contactName,jdbcType=VARCHAR},
+      <if test="record.provinceId != null" >
+        province_id = #{record.provinceId,jdbcType=VARCHAR},
       </if>
-      <if test="record.city != null" >
-        city = #{record.city,jdbcType=VARCHAR},
+      <if test="record.provinceName != null" >
+        province_name = #{record.provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityId != null" >
+        city_id = #{record.cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cityName != null" >
+        city_name = #{record.cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.districtId != null" >
+        district_id = #{record.districtId,jdbcType=INTEGER},
+      </if>
+      <if test="record.districtName != null" >
+        district_name = #{record.districtName,jdbcType=VARCHAR},
       </if>
       <if test="record.country != null" >
         country = #{record.country,jdbcType=VARCHAR},
       </if>
-      <if test="record.province != null" >
-        province = #{record.province,jdbcType=VARCHAR},
+      <if test="record.contactName != null" >
+        contact_name = #{record.contactName,jdbcType=VARCHAR},
       </if>
       <if test="record.addr != null" >
         addr = #{record.addr,jdbcType=VARCHAR},
@@ -301,12 +340,16 @@
   <update id="updateByExample" parameterType="map" >
     update t_seller_addr
     set id = #{record.id,jdbcType=BIGINT},
-      seller_id = #{record.sellerId,jdbcType=BIGINT},
+      seller_id = #{record.sellerId,jdbcType=VARCHAR},
       area_id = #{record.areaId,jdbcType=BIGINT},
-      contact_name = #{record.contactName,jdbcType=VARCHAR},
-      city = #{record.city,jdbcType=VARCHAR},
+      province_id = #{record.provinceId,jdbcType=VARCHAR},
+      province_name = #{record.provinceName,jdbcType=VARCHAR},
+      city_id = #{record.cityId,jdbcType=VARCHAR},
+      city_name = #{record.cityName,jdbcType=VARCHAR},
+      district_id = #{record.districtId,jdbcType=INTEGER},
+      district_name = #{record.districtName,jdbcType=VARCHAR},
       country = #{record.country,jdbcType=VARCHAR},
-      province = #{record.province,jdbcType=VARCHAR},
+      contact_name = #{record.contactName,jdbcType=VARCHAR},
       addr = #{record.addr,jdbcType=VARCHAR},
       memo = #{record.memo,jdbcType=VARCHAR},
       phone = #{record.phone,jdbcType=VARCHAR},
@@ -323,22 +366,34 @@
     update t_seller_addr
     <set >
       <if test="sellerId != null" >
-        seller_id = #{sellerId,jdbcType=BIGINT},
+        seller_id = #{sellerId,jdbcType=VARCHAR},
       </if>
       <if test="areaId != null" >
         area_id = #{areaId,jdbcType=BIGINT},
       </if>
-      <if test="contactName != null" >
-        contact_name = #{contactName,jdbcType=VARCHAR},
+      <if test="provinceId != null" >
+        province_id = #{provinceId,jdbcType=VARCHAR},
       </if>
-      <if test="city != null" >
-        city = #{city,jdbcType=VARCHAR},
+      <if test="provinceName != null" >
+        province_name = #{provinceName,jdbcType=VARCHAR},
+      </if>
+      <if test="cityId != null" >
+        city_id = #{cityId,jdbcType=VARCHAR},
+      </if>
+      <if test="cityName != null" >
+        city_name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if test="districtId != null" >
+        district_id = #{districtId,jdbcType=INTEGER},
+      </if>
+      <if test="districtName != null" >
+        district_name = #{districtName,jdbcType=VARCHAR},
       </if>
       <if test="country != null" >
         country = #{country,jdbcType=VARCHAR},
       </if>
-      <if test="province != null" >
-        province = #{province,jdbcType=VARCHAR},
+      <if test="contactName != null" >
+        contact_name = #{contactName,jdbcType=VARCHAR},
       </if>
       <if test="addr != null" >
         addr = #{addr,jdbcType=VARCHAR},
@@ -369,12 +424,16 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="shop.pojo.TSellerAddr" >
     update t_seller_addr
-    set seller_id = #{sellerId,jdbcType=BIGINT},
+    set seller_id = #{sellerId,jdbcType=VARCHAR},
       area_id = #{areaId,jdbcType=BIGINT},
-      contact_name = #{contactName,jdbcType=VARCHAR},
-      city = #{city,jdbcType=VARCHAR},
+      province_id = #{provinceId,jdbcType=VARCHAR},
+      province_name = #{provinceName,jdbcType=VARCHAR},
+      city_id = #{cityId,jdbcType=VARCHAR},
+      city_name = #{cityName,jdbcType=VARCHAR},
+      district_id = #{districtId,jdbcType=INTEGER},
+      district_name = #{districtName,jdbcType=VARCHAR},
       country = #{country,jdbcType=VARCHAR},
-      province = #{province,jdbcType=VARCHAR},
+      contact_name = #{contactName,jdbcType=VARCHAR},
       addr = #{addr,jdbcType=VARCHAR},
       memo = #{memo,jdbcType=VARCHAR},
       phone = #{phone,jdbcType=VARCHAR},

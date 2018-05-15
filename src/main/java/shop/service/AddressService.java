@@ -1,8 +1,8 @@
 package shop.service;
 
-import shop.base.BaseMap.ResMap;
 import shop.pojo.Auc;
 import shop.pojo.TSellerAddr;
+import shop.vtp.AddressVtp;
 
 import java.util.Map;
 
@@ -12,15 +12,23 @@ public interface AddressService {
      *
      * @return
      */
-    Map insertAddress(TSellerAddr sellerAddr);
+    Map insertAddress(AddressVtp addressVtp);
 
     /**
      * 更改地址
      *
-     * @param sellerAddr
+     * @param id
      * @return
      */
-    Map updateAddress(TSellerAddr sellerAddr);
+    Map deleteAddress(String id);
+
+    /**
+     * 更改地址
+     *
+     * @param id
+     * @return
+     */
+    Map updteAddress(AddressVtp addressVtp);
 
     /**
      * 获取全部地址
@@ -28,5 +36,20 @@ public interface AddressService {
      * @param auc
      * @return
      */
+    Map detailId(Auc auc);
+
+    /**
+     * 获取全部地址,有Id查询
+     *
+     * @param auc
+     * @return
+     */
     Map detail(Auc auc);
+
+    /**
+     * 获取默认地址
+     * @param auc
+     * @return
+     */
+    Map defaultAddress(Auc auc);
 }

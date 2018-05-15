@@ -9,13 +9,21 @@ public class TSellerAddr {
 
     private Long areaId;
 
-    private String contactName;
+    private String provinceId;
 
-    private String city;
+    private String provinceName;
+
+    private String cityId;
+
+    private String cityName;
+
+    private Integer districtId;
+
+    private String districtName;
 
     private String country;
 
-    private String province;
+    private String contactName;
 
     private String addr;
 
@@ -46,7 +54,7 @@ public class TSellerAddr {
     }
 
     public void setSellerId(String sellerId) {
-        this.sellerId = sellerId;
+        this.sellerId = sellerId == null ? null : sellerId.trim();
     }
 
     public Long getAreaId() {
@@ -57,20 +65,52 @@ public class TSellerAddr {
         this.areaId = areaId;
     }
 
-    public String getContactName() {
-        return contactName;
+    public String getProvinceId() {
+        return provinceId;
     }
 
-    public void setContactName(String contactName) {
-        this.contactName = contactName == null ? null : contactName.trim();
+    public void setProvinceId(String provinceId) {
+        this.provinceId = provinceId == null ? null : provinceId.trim();
     }
 
-    public String getCity() {
-        return city;
+    public String getProvinceName() {
+        return provinceName;
     }
 
-    public void setCity(String city) {
-        this.city = city == null ? null : city.trim();
+    public void setProvinceName(String provinceName) {
+        this.provinceName = provinceName == null ? null : provinceName.trim();
+    }
+
+    public String getCityId() {
+        return cityId;
+    }
+
+    public void setCityId(String cityId) {
+        this.cityId = cityId == null ? null : cityId.trim();
+    }
+
+    public String getCityName() {
+        return cityName;
+    }
+
+    public void setCityName(String cityName) {
+        this.cityName = cityName == null ? null : cityName.trim();
+    }
+
+    public Integer getDistrictId() {
+        return districtId;
+    }
+
+    public void setDistrictId(Integer districtId) {
+        this.districtId = districtId;
+    }
+
+    public String getDistrictName() {
+        return districtName;
+    }
+
+    public void setDistrictName(String districtName) {
+        this.districtName = districtName == null ? null : districtName.trim();
     }
 
     public String getCountry() {
@@ -81,12 +121,12 @@ public class TSellerAddr {
         this.country = country == null ? null : country.trim();
     }
 
-    public String getProvince() {
-        return province;
+    public String getContactName() {
+        return contactName;
     }
 
-    public void setProvince(String province) {
-        this.province = province == null ? null : province.trim();
+    public void setContactName(String contactName) {
+        this.contactName = contactName == null ? null : contactName.trim();
     }
 
     public String getAddr() {

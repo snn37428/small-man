@@ -1,13 +1,10 @@
 package shop.dao;
 
+import java.util.List;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-import shop.pojo.Auc;
 import shop.pojo.TSellerAddr;
 import shop.pojo.TSellerAddrExample;
-
-import java.util.List;
-
 @Repository("TSellerAddrMapper")
 public interface TSellerAddrMapper {
     int countByExample(TSellerAddrExample example);
@@ -22,9 +19,11 @@ public interface TSellerAddrMapper {
 
     List<TSellerAddr> selectByExample(TSellerAddrExample example);
 
-    List<TSellerAddr> selectAddressList(Auc auc);
-
     TSellerAddr selectByPrimaryKey(Long id);
+
+    TSellerAddr selectByPrimaryMinId(String sellerId);
+
+    List<TSellerAddr> selectListAddress(String sellerId);
 
     int updateByExampleSelective(@Param("record") TSellerAddr record, @Param("example") TSellerAddrExample example);
 

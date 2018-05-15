@@ -147,10 +147,6 @@ public class LoginServiceImpl implements LoginService {
         return null;
     }
 
-
-
-
-
     @Override
     public Map checkOnlineToken(Auc auc) {
 
